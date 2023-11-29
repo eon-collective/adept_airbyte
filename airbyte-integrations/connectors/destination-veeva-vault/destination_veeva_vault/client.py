@@ -2,77 +2,62 @@
 # Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
-from typing import Any, Iterable, List, Mapping, Tuple, Union
+from typing import Any, List, Mapping
 
 import requests
+from destination_veeva_vault.config import VeevaVaultConfig
 
 
 class VeevaVaultClient:
-    base_url = "https://kvdb.io"
-    PAGE_SIZE = 1000
+    def __init__(self, config: VeevaVaultConfig, table_metadata: Mapping[str, Any]):
+        self.deployment_url = config["deployment_url"]
+        self.access_key = config["access_key"]
+        self.table_metadata = table_metadata
 
-    def __init__(self, bucket_id: str, secret_key: str = None):
-        self.secret_key = secret_key
-        self.bucket_id = bucket_id
-
-    def write(self, key: str, value: Mapping[str, Any]):
-        return self.batch_write([(key, value)])
-
-    def batch_write(self, keys_and_values: List[Tuple[str, Mapping[str, Any]]]):
+    def batch_write(self, records: List[Mapping[str, Any]]) -> requests.Response:
         """
-        https://kvdb.io/docs/api/#execute-transaction
+        See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#post-apistreaming_importimport_airbyte_records
         """
-        request_body = {"txn": [{"set": key, "value": value} for key, value in keys_and_values]}
-        return self._request("POST", json=request_body)
+        request_body = {"tables": self.table_metadata, "messages": records}
+        return self._request("POST", endpoint="import_airbyte_records", json=request_body)
 
-    def list_keys(self, list_values: bool = False, prefix: str = None) -> Iterable[Union[str, List]]:
+    def delete(self, keys: List[str]) -> requests.Response:
         """
-        https://kvdb.io/docs/api/#list-keys
+        See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#put-apistreaming_importclear_tables
         """
-        # TODO handle rate limiting
-        pagination_complete = False
-        offset = 0
+        request_body = {"tableNames": keys}
+        return self._request("PUT", endpoint="clear_tables", json=request_body)
 
-        while not pagination_complete:
-            response = self._request(
-                "GET",
-                params={
-                    "limit": self.PAGE_SIZE,
-                    "skip": offset,
-                    "format": "json",
-                    "prefix": prefix or "",
-                    "values": "true" if list_values else "false",
-                },
-                endpoint="/",  # the "list" endpoint doesn't work without adding a trailing slash to the URL
-            )
-
-            response_json = response.json()
-            yield from response_json
-
-            pagination_complete = len(response_json) < self.PAGE_SIZE
-            offset += self.PAGE_SIZE
-
-    def delete(self, key: Union[str, List[str]]):
+    def add_primary_key_indexes(self, indexes: Mapping[str, List[List[str]]]) -> requests.Response:
         """
-        https://kvdb.io/docs/api/#execute-transaction
+        See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#put-apistreaming_importadd_primary_key_indexes
         """
-        key_list = key if isinstance(key, List) else [key]
-        request_body = {"txn": [{"delete": k} for k in key_list]}
-        return self._request("POST", json=request_body)
+        return self._request("PUT", "add_primary_key_indexes", json={"indexes": indexes})
 
-    def _get_base_url(self) -> str:
-        return f"{self.base_url}/{self.bucket_id}"
+    def primary_key_indexes_ready(self, tables: List[str]) -> requests.Response:
+        """
+        See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#get-apistreaming_importprimary_key_indexes_ready
+        """
+        return self._request("GET", "primary_key_indexes_ready", json={"tables": tables})
 
-    def _get_auth_headers(self) -> Mapping[str, Any]:
-        return {"Authorization": f"Bearer {self.secret_key}"} if self.secret_key else {}
+    def _get_auth_headers(self) -> Mapping[str, str]:
+        return {"Authorization": f"VeevaVault {self.access_key}"}
 
     def _request(
-        self, http_method: str, endpoint: str = None, params: Mapping[str, Any] = None, json: Mapping[str, Any] = None
+        self,
+        http_method: str,
+        endpoint: str,
+        json: Mapping[str, Any],
     ) -> requests.Response:
-        url = self._get_base_url() + (endpoint or "")
-        headers = {"Accept": "application/json", **self._get_auth_headers()}
+        url = f"{self.deployment_url}/api/streaming_import/{endpoint}"
+        headers = {
+            "Accept": "application/json",
+            "VeevaVault-Client": "streaming-import-0.1.0",
+            **self._get_auth_headers(),
+        }
 
-        response = requests.request(method=http_method, params=params, url=url, headers=headers, json=json)
+        response = requests.request(method=http_method, url=url, headers=headers, json=json)
 
-        response.raise_for_status()
+        if response.status_code != 200:
+            raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
         return response
