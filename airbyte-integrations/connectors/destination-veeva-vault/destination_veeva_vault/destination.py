@@ -6,10 +6,22 @@
 from typing import Any, Iterable, Mapping
 import requests
 import urllib
+import time
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
-from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status
+from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status, DestinationSyncMode, Type
+from destination_veeva_vault.client import VeevaVaultClient
+from destination_veeva_vault.writer import VeevaVaultWriter
 
+# def get_client(config: Mapping[str, Any]) -> Client:
+#     api_key = config.get("api_key")
+#     host = config.get("host")
+#     port = config.get("port") or "8108"
+#     protocol = config.get("protocol") or "https"
+
+#     client = Client({"api_key": api_key, "nodes": [{"host": host, "port": port, "protocol": protocol}], "connection_timeout_seconds": 3600})
+
+#     return client
 
 class DestinationVeevaVault(Destination):
     def write(
@@ -32,7 +44,29 @@ class DestinationVeevaVault(Destination):
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
 
-        print(config)
+        writer = VeevaVaultWriter(VeevaVaultClient(**config))
+
+        for configured_stream in configured_catalog.streams:
+            if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
+                writer.delete_stream_entries(configured_stream.stream.name)
+
+        for message in input_messages:
+            if message.type == Type.STATE:
+                # Emitting a state message indicates that all records which came before it have been written to the destination. So we flush
+                # the queue to ensure writes happen, then output the state message to indicate it's safe to checkpoint state
+                writer.flush()
+                yield message
+            elif message.type == Type.RECORD:
+                record = message.record
+                writer.queue_write_operation(
+                    record.stream, record.data, time.time_ns() / 1_000_000
+                )  # convert from nanoseconds to milliseconds
+            else:
+                # ignore other message types for now
+                continue
+
+        # Make sure to flush any records still in the queue
+        writer.flush()
 
     def check(self, logger: AirbyteLogger, config: Mapping[str, Any]) -> AirbyteConnectionStatus:
         """
