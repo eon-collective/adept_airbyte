@@ -23,9 +23,15 @@ class VeevaVaultClient:
         """
         See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#post-apistreaming_importimport_airbyte_records
         """
-        request_body = {"tables": self.table_metadata, "messages": records}
+        # request_body = {"tables": self.table_metadata, "messages": records}
+        request_body={'name__v': 'Airbyter.csv',
+        'type__v': 'Unclassified',
+        'lifecycle__v': 'Inbox'}
+        files=[
+            ('file',('ELTModel.csv',open('/Users/james.kimani/Downloads/ELTModel.csv','rb'),'text/csv'))
+        ]                                           
         logger.info(f"formatting message to destination: {request_body}")
-        return self._request("POST", endpoint="objects/documents/batch", json=request_body)
+        return self._request("POST", endpoint="objects/documents/batch", json=request_body, files=files)
 
     def delete(self, keys: List[str]) -> requests.Response:
         """
@@ -90,7 +96,7 @@ class VeevaVaultClient:
             **self._get_auth_headers(),
         }
 
-        response = requests.request(method=http_method, url=url, headers=headers, json=json)
+        response = requests.request(method=http_method, url=url, headers=headers, data=json, files=[])
 
         if response.status_code != 200:
             raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
