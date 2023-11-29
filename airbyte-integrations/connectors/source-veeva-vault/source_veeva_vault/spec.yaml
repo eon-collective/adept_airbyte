@@ -4,9 +4,19 @@ connectionSpecification:
   title: Veeva Vault Spec
   type: object
   required:
-    - TODO
+    - vaultDNS
+    - username
+    - password
   properties:
-    # 'TODO: This schema defines the configuration required for the source. This usually involves metadata such as database and/or authentication information.':
-    TODO:
+    vaultDNS:
+      type: string
+      description: describe me
+    username:
+      type: string
+      description: describe me
+    password:
+      type: string
+      description: describe me
+    api_version:
       type: string
       description: describe me
