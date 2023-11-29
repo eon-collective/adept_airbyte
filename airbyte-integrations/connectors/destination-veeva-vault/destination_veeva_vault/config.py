@@ -4,10 +4,12 @@
 
 from typing import TypedDict
 
-ConvexConfig = TypedDict(
-    "ConvexConfig",
+VeevaVaultConfig = TypedDict(
+    "VeevaVaultConfig",
     {
-        "deployment_url": str,
-        "access_key": str,
+        "vaultDNS": str,
+        "username": str,
+        "password": str,
+        "api_version": str
     },
 )

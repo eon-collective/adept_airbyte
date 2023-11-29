@@ -3,33 +3,35 @@
 #
 
 
-from typing import Any, Iterable, Mapping
-import requests
+# from logging import Logger
+from typing import Any, Iterable, List, Mapping, Optional, cast
 import urllib
-import time
+import requests
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
-from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status, DestinationSyncMode, Type
+from airbyte_cdk.models import (
+    AirbyteConnectionStatus,
+    AirbyteMessage,
+    ConfiguredAirbyteCatalog,
+    ConfiguredAirbyteStream,
+    DestinationSyncMode,
+    Status,
+    Type,
+)
 from destination_veeva_vault.client import VeevaVaultClient
+from destination_veeva_vault.config import VeevaVaultConfig
 from destination_veeva_vault.writer import VeevaVaultWriter
 
-# def get_client(config: Mapping[str, Any]) -> Client:
-#     api_key = config.get("api_key")
-#     host = config.get("host")
-#     port = config.get("port") or "8108"
-#     protocol = config.get("protocol") or "https"
 
-#     client = Client({"api_key": api_key, "nodes": [{"host": host, "port": port, "protocol": protocol}], "connection_timeout_seconds": 3600})
-
-#     return client
 
 class DestinationVeevaVault(Destination):
     def write(
-        self, config: Mapping[str, Any], configured_catalog: ConfiguredAirbyteCatalog, input_messages: Iterable[AirbyteMessage]
+        self,
+        config: Mapping[str, Any],
+        configured_catalog: ConfiguredAirbyteCatalog,
+        input_messages: Iterable[AirbyteMessage],
     ) -> Iterable[AirbyteMessage]:
-
         """
-        TODO
         Reads the input stream of messages, config, and catalog to write data to the destination.
 
         This method returns an iterable (typically a generator of AirbyteMessages via yield) containing state messages received
@@ -43,24 +45,39 @@ class DestinationVeevaVault(Destination):
         :param input_messages: The stream of input messages received from the source
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
+        config = cast(VeevaVaultConfig, config)
+        writer = VeevaVaultWriter(VeevaVaultClient(config, self.table_metadata(configured_catalog.streams)))
 
-        writer = VeevaVaultWriter(VeevaVaultClient(**config))
-
+        # Setup: Clear tables if in overwrite mode; add indexes if in append_dedup mode.
+        streams_to_delete = []
+        indexes_to_add = {}
         for configured_stream in configured_catalog.streams:
             if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
-                writer.delete_stream_entries(configured_stream.stream.name)
+                streams_to_delete.append(configured_stream.stream.name)
+            elif configured_stream.destination_sync_mode == DestinationSyncMode.append_dedup and configured_stream.primary_key:
+                indexes_to_add[configured_stream.stream.name] = configured_stream.primary_key
+        # if len(streams_to_delete) != 0:
+        #     writer.delete_tables(streams_to_delete)
+        # if len(indexes_to_add) != 0:
+        #     writer.add_indexes(indexes_to_add)
 
+        # Process records
         for message in input_messages:
             if message.type == Type.STATE:
                 # Emitting a state message indicates that all records which came before it have been written to the destination. So we flush
                 # the queue to ensure writes happen, then output the state message to indicate it's safe to checkpoint state
                 writer.flush()
                 yield message
-            elif message.type == Type.RECORD:
-                record = message.record
-                writer.queue_write_operation(
-                    record.stream, record.data, time.time_ns() / 1_000_000
-                )  # convert from nanoseconds to milliseconds
+            elif message.type == Type.RECORD and message.record is not None:
+                table_name = self.table_name_for_stream(
+                    message.record.namespace,
+                    message.record.stream,
+                )
+                msg = {
+                    "tableName": table_name,
+                    "data": message.record.data,
+                }
+                writer.queue_write_operation(msg)
             else:
                 # ignore other message types for now
                 continue
@@ -68,10 +85,34 @@ class DestinationVeevaVault(Destination):
         # Make sure to flush any records still in the queue
         writer.flush()
 
+    def table_name_for_stream(self, namespace: Optional[str], stream_name: str) -> str:
+        if namespace is not None:
+            return f"{namespace}_{stream_name}"
+        return stream_name
+
+    def table_metadata(
+        self,
+        streams: List[ConfiguredAirbyteStream],
+    ) -> Mapping[str, Any]:
+        table_metadata = {}
+        for s in streams:
+            # Only send a primary key for dedup sync
+            if s.destination_sync_mode != DestinationSyncMode.append_dedup:
+                s.primary_key = None
+            stream = {
+                "primaryKey": s.primary_key,
+                "jsonSchema": s.stream.json_schema,
+            }
+            name = self.table_name_for_stream(
+                s.stream.namespace,
+                s.stream.name,
+            )
+            table_metadata[name] = stream
+        return table_metadata
+
     def check(self, logger: AirbyteLogger, config: Mapping[str, Any]) -> AirbyteConnectionStatus:
         """
         Tests the connection and the API key for the Veeva Vault API Service.
-
         :param config:  the user-input config object conforming to the connector's spec.json
         :param logger:  logger object
         :return Tuple[bool, any]: (True, None) if the input config can be used to connect to the API successfully, (False, error) otherwise.
@@ -91,7 +132,7 @@ class DestinationVeevaVault(Destination):
             }
 
             response = requests.request("POST", final_url, headers=headers, data=payload)
-            
+
             status = response.status_code
             logger.info(f"Response code from Veeva Vault API Instance while checking for connection: {status}. DNS: {final_url}")
             logger.debug(response.text)

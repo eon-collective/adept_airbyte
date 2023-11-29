@@ -5,9 +5,10 @@
 import time
 from collections.abc import Mapping
 from typing import Any, List
-
+import logging
 from destination_veeva_vault.client import VeevaVaultClient
 
+logger = logging.getLogger("airbyte")
 
 class VeevaVaultWriter:
     """
@@ -42,12 +43,13 @@ class VeevaVaultWriter:
 
     def queue_write_operation(self, message: Mapping[str, Any]) -> None:
         """Adds messages to the write queue and flushes if the buffer is full"""
+        logger.info("queued stream records for destination")
         self.write_buffer.append(message)
         if len(self.write_buffer) == self.flush_interval:
             self.flush()
 
     def flush(self) -> None:
         """Writes to VeevaVault"""
-
+        logger.info("flushing stream records")
         self.client.batch_write(self.write_buffer)
         self.write_buffer.clear()
