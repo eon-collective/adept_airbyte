@@ -4,7 +4,8 @@
 
 
 from typing import Any, Iterable, Mapping
-
+import requests
+import urllib
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
 from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status
@@ -31,23 +32,42 @@ class DestinationVeevaVault(Destination):
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
 
-        pass
+        print(config)
 
     def check(self, logger: AirbyteLogger, config: Mapping[str, Any]) -> AirbyteConnectionStatus:
         """
-        Tests if the input configuration can be used to successfully connect to the destination with the needed permissions
-            e.g: if a provided API token or password can be used to connect and write to the destination.
+        Tests the connection and the API key for the Veeva Vault API Service.
 
-        :param logger: Logging object to display debug/info/error to the logs
-            (logs will not be accessible via airbyte UI if they are not passed to this logger)
-        :param config: Json object containing the configuration of this destination, content of this json is as specified in
-        the properties of the spec.json file
-
-        :return: AirbyteConnectionStatus indicating a Success or Failure
+        :param config:  the user-input config object conforming to the connector's spec.json
+        :param logger:  logger object
+        :return Tuple[bool, any]: (True, None) if the input config can be used to connect to the API successfully, (False, error) otherwise.
         """
+        veevaDNS = config.get("vaultDNS")
+        api_version = config.get("api_version")
+        username = config.get("username")
+        password = config.get("password")
         try:
-            # TODO
+            base_url = f"https://{veevaDNS}.veevavault.com/api/{api_version}"
+            final_url = f"{base_url}/auth"
 
-            return AirbyteConnectionStatus(status=Status.SUCCEEDED)
+            payload=f'username={urllib.parse.quote(username)}&password={urllib.parse.quote(password)}'
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'
+            }
+
+            response = requests.request("POST", final_url, headers=headers, data=payload)
+            
+            status = response.status_code
+            logger.info(f"Response code from Veeva Vault API Instance while checking for connection: {status}. DNS: {final_url}")
+            logger.debug(response.text)
+            if status == 200:
+                if "sessionId" not in response.text:
+                    logger.error(f"'sessionId' not found in response from {final_url}. Failing source veeva vault connection check")
+                    return AirbyteConnectionStatus(status=Status.FAILED, message=response.text)
+                return AirbyteConnectionStatus(status=Status.SUCCEEDED)
+            return AirbyteConnectionStatus(status=Status.FAILED, message=response.text)
         except Exception as e:
-            return AirbyteConnectionStatus(status=Status.FAILED, message=f"An exception occurred: {repr(e)}")
+            return AirbyteConnectionStatus(status=Status.FAILED,
+                message=f"An exception occurred: {e}. \nStacktrace: \n{e.format_exc()}",
+            )

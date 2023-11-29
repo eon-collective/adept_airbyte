@@ -96,6 +96,27 @@ class VeevaVaultStream(HttpStream, ABC):
         """
         yield {}
 
+    def get_json_schema(self) -> Mapping[str, Any]:
+        """
+        The Veeva Vault hosts many APIs: https://developer.veevavault.com/api
+
+        These APIs return data in a non standard format.
+        We create the JSON schemas dynamically by reading the first "row" of data we get.
+
+        In this implementation all records are of type "string", but this function could
+        be changed to try and infer the data type based on the values it finds.
+        """
+        first_record = next(self.read_records(SyncMode.full_refresh))
+        json_schema = {k: {"type": "string"} for (k, _) in first_record.items()}
+        if first_record:
+            return {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "additionalProperties": True,
+                "type": "object",
+                "properties": json_schema,
+            }
+        raise ValueError("For schema discovery: the request must return at least one result")
+
 
 class Delegations(VeevaVaultStream):
     """
@@ -2816,7 +2837,7 @@ class SigningCertificate(VeevaVaultStream):
 class SourceVeevaVault(AbstractSource):
     def check_connection(self, logger, config) -> Tuple[bool, any]:
         """
-        Tests the connection and the API key for the US census website.
+        Tests the connection and the API key for the Veeva Vault API Service.
 
         :param config:  the user-input config object conforming to the connector's spec.json
         :param logger:  logger object
