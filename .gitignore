@@ -33,6 +33,7 @@ __pycache__
 .mypy_cache
 .ipynb_checkpoints
 .pytest_
+venv/
 
 # Python unit test / coverage reports
 htmlcov/

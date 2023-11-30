@@ -28,7 +28,7 @@ class VeevaVaultClient:
         'type__v': 'Unclassified',
         'lifecycle__v': 'Inbox'}
         files=[
-            ('file',('ELTModel.csv',open('/Users/james.kimani/Downloads/ELTModel.csv','rb'),'text/csv'))
+            ('file',('ELTModel.csv',open('c:\\Users\\LENOVO\\Downloads\\Columns.csv','rb'),'text/csv'))
         ]                                           
         logger.info(f"formatting message to destination: {request_body}")
         return self._request("POST", endpoint="objects/documents/batch", json=request_body, files=files)
@@ -87,6 +87,7 @@ class VeevaVaultClient:
         http_method: str,
         endpoint: str,
         json: Mapping[str, Any],
+        files,
     ) -> requests.Response:
         url = f"https://{self.vaultDNS}.veevavault.com/api/{self.api_version}/{endpoint}"
         # /api/{version}/objects/documents/batch
@@ -96,8 +97,8 @@ class VeevaVaultClient:
             **self._get_auth_headers(),
         }
 
-        response = requests.request(method=http_method, url=url, headers=headers, data=json, files=[])
-
+        response = requests.request(method=http_method, url=url, headers=headers, data=json, files=files)
+        logger.info(f"Response: {response.json()}")
         if response.status_code != 200:
             raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
         return response
