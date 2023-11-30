@@ -28,7 +28,7 @@ class VeevaVaultClient:
         'type__v': 'Unclassified',
         'lifecycle__v': 'Inbox'}
         files=[
-            ('file',('ELTModel.csv',open('c:\\Users\\LENOVO\\Downloads\\Columns.csv','rb'),'text/csv'))
+            ('file',('ELTModel.csv',open('c:\\Users\\LENOVO\\Downloads\\Veeva_Tests.csv','rb'),'text/csv'))
         ]                                           
         logger.info(f"formatting message to destination: {request_body}")
         return self._request("POST", endpoint="objects/documents/batch", json=request_body, files=files)
