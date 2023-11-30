@@ -8,6 +8,8 @@ import requests
 import logging
 from destination_veeva_vault.config import VeevaVaultConfig
 import json
+import os
+import pandas as pd
 
 logger = logging.getLogger("airbyte")
 
@@ -23,15 +25,30 @@ class VeevaVaultClient:
         """
         See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#post-apistreaming_importimport_airbyte_records
         """
+        filename = ""
+        for message in records:
+            filename = f"{message['tableName']}.csv"
+
+        data_records = [record['data'] for record in records]
+        df = pd.DataFrame(data_records)
+        df.to_csv(filename, index=False)
+        file_path = os.path.abspath(filename)
+
         # request_body = {"tables": self.table_metadata, "messages": records}
-        request_body={'name__v': 'Airbyter.csv',
+        request_body={
+        'name__v': filename,
         'type__v': 'Unclassified',
-        'lifecycle__v': 'Inbox'}
+        'lifecycle__v': 'Inbox',
+        }
         files=[
-            ('file',('ELTModel.csv',open('c:\\Users\\LENOVO\\Downloads\\Veeva_Tests.csv','rb'),'text/csv'))
-        ]                                           
+            ('file',(f'{filename}',open(
+                f'{file_path}',
+                'rb'),
+                'text/csv'))
+        ]
+        # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
         logger.info(f"formatting message to destination: {request_body}")
-        return self._request("POST", endpoint="objects/documents/batch", json=request_body, files=files)
+        return self._request("POST", endpoint="objects/documents", data=request_body, files=files, file_path=file_path)
 
     def delete(self, keys: List[str]) -> requests.Response:
         """
@@ -86,19 +103,33 @@ class VeevaVaultClient:
         self,
         http_method: str,
         endpoint: str,
-        json: Mapping[str, Any],
+        data: Mapping[str, Any],
         files,
+        file_path
     ) -> requests.Response:
         url = f"https://{self.vaultDNS}.veevavault.com/api/{self.api_version}/{endpoint}"
         # /api/{version}/objects/documents/batch
         headers = {
             "Accept": "application/json",
-            "Content-Type": "text/csv",
             **self._get_auth_headers(),
         }
 
-        response = requests.request(method=http_method, url=url, headers=headers, data=json, files=files)
+        logger.info(f"Data: {data}")
+
+        response = requests.request(
+            method=http_method, 
+            url=url, 
+            headers=headers, 
+            data=data,
+            files=files
+        )
         logger.info(f"Response: {response.json()}")
         if response.status_code != 200:
             raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
+        # else:
+        #     if os.path.exists(file_path):
+        #         os.remove(file_path)
+        #         logger.info(f'The file {file_path} has been successfully deleted.')
+        #     else:
+        #         logger.info(f'The file {file_path} does not exist.')
         return response
