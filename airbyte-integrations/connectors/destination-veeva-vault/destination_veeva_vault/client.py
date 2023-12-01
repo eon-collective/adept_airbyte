@@ -10,6 +10,7 @@ from destination_veeva_vault.config import VeevaVaultConfig
 import json
 import os
 import pandas as pd
+import time
 
 logger = logging.getLogger("airbyte")
 
@@ -114,8 +115,6 @@ class VeevaVaultClient:
             **self._get_auth_headers(),
         }
 
-        logger.info(f"Data: {data}")
-
         response = requests.request(
             method=http_method, 
             url=url, 
@@ -124,12 +123,14 @@ class VeevaVaultClient:
             files=files
         )
         logger.info(f"Response: {response.json()}")
+
+        time.sleep(10)
         if response.status_code != 200:
             raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
-        # else:
-        #     if os.path.exists(file_path):
-        #         os.remove(file_path)
-        #         logger.info(f'The file {file_path} has been successfully deleted.')
-        #     else:
-        #         logger.info(f'The file {file_path} does not exist.')
+        else:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                logger.info(f'The file {file_path} has been successfully deleted.')
+            else:
+                logger.info(f'The file {file_path} does not exist.')
         return response
