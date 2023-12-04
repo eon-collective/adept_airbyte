@@ -164,8 +164,11 @@ Please use this as an example. This is not optimized.
 2. Build your image:
 ```bash
 docker build -t airbyte/destination-veeva-vault:dev .
+
 # Running the spec command against your patched connector
+
 docker run airbyte/destination-veeva-vault:dev spec
+
 ````
 #### Run
 Then run any of the connector commands as follows:
