@@ -6,6 +6,7 @@
 # from logging import Logger
 from typing import Any, Iterable, List, Mapping, Optional, cast
 import urllib
+from datetime import datetime
 import requests
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
@@ -51,7 +52,15 @@ class DestinationVeevaVault(Destination):
         # Setup: Clear tables if in overwrite mode; add indexes if in append_dedup mode.
         streams_to_delete = []
         indexes_to_add = {}
+        metadata = {}
         for configured_stream in configured_catalog.streams:
+            metadata["fields"] = configured_stream.stream.json_schema
+            metadata["name"] = configured_stream.stream.name
+            metadata["sync_mode"] = configured_stream.stream.supported_sync_modes
+            metadata["default_cursor_field"]=configured_stream.stream.default_cursor_field
+            metadata["source_defined_primary_key"]=configured_stream.stream.source_defined_primary_key
+            metadata["namespace"]=configured_stream.stream.namespace
+
             if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
                 streams_to_delete.append(configured_stream.stream.name)
             elif configured_stream.destination_sync_mode == DestinationSyncMode.append_dedup and configured_stream.primary_key:
@@ -69,6 +78,9 @@ class DestinationVeevaVault(Destination):
                 writer.flush()
                 yield message
             elif message.type == Type.RECORD and message.record is not None:
+                start_time = datetime.now()
+                start_time = start_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+
                 table_name = self.table_name_for_stream(
                     message.record.namespace,
                     message.record.stream,
@@ -78,6 +90,12 @@ class DestinationVeevaVault(Destination):
                     "data": message.record.data,
                 }
                 writer.queue_write_operation(msg)
+
+                end_time = datetime.now()
+                end_time = end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+                metadata["start_time"] = start_time
+                metadata["end_time"] = end_time
+                print(metadata)
             else:
                 # ignore other message types for now
                 continue

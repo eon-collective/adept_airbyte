@@ -15,7 +15,7 @@ VeevaVaultConfig = TypedDict(
             "format_type": str,
             "delimiter": str,
             "escape_character": str,
-            "text_enclosure_char": str
+            "text_enclosure_char": str,
         },
         "type__v": str,
         "lifecycle__v": str,
@@ -24,9 +24,8 @@ VeevaVaultConfig = TypedDict(
             "action": str,
             "adept_instance_url": str,
             "adept_project_id": str,
-            "adept_project_stage_name": str
+            "adept_project_stage_name": str,
         }
     },
-    
 )
 

@@ -51,6 +51,7 @@ class VeevaVaultClient:
                 'rb'),
                 'text/csv'))
         ]
+
         # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
         logger.info(f"formatting message to destination: {request_body}")
         return self._request("POST", endpoint="objects/documents", data=request_body, files=files, file_path=file_path)
