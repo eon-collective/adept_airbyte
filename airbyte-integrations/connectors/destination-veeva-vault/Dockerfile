@@ -26,6 +26,11 @@ RUN echo "Etc/UTC" > /etc/timezone
 
 # bash is installed for more convenient debugging.
 RUN apk --no-cache add bash
+# Create image based on the official openjdk 8-jre-alpine image from the dockerhub
+# FROM openjdk:8-jre-alpine
+
+# # Install wkhtmltopdf
+# RUN apk add --no-cache wkhtmltopdf
 
 # copy payload code only
 COPY main.py ./

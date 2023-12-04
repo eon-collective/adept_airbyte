@@ -11,7 +11,8 @@
     "required": [
       "vaultDNS",
       "username",
-      "password"
+      "password",
+      "publish_metadata_file"
     ],
     "additionalProperties": false,
     "properties": {
@@ -158,6 +159,14 @@
           "Inbox"
         ]
       },
+      "publish_metadata_file": {
+        "title": "Metadata File Publish to Veeva",
+        "type": "boolean",
+        "description": "When enabled, the job will write the stream/job metadata to a file. This file will include schema and number of records written per Veeva file/document",
+        "order": 5,
+        "group": "metadata",
+        "default": false
+      },
       "publish_to_adept": {
         "title": "ADEPT Publish?",
         "group": "metadata",
@@ -226,7 +235,7 @@
             }
           }
         ],
-        "order": 5
+        "order": 6
       }
     },
     "groups": [

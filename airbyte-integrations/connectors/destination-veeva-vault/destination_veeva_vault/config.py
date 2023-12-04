@@ -19,6 +19,7 @@ VeevaVaultConfig = TypedDict(
         },
         "type__v": str,
         "lifecycle__v": str,
+        "publish_metadata_file": bool,
         "publish_to_adept": {
             "action": str,
             "adept_instance_url": str,
