@@ -8,25 +8,236 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Destination Veeva Vault",
     "type": "object",
-    "required": ["vaultDNS", "username", "password"],
+    "required": [
+      "vaultDNS",
+      "username",
+      "password"
+    ],
     "additionalProperties": false,
     "properties": {
       "vaultDNS": {
+        "title": "Veeva Vault Subdomain DNS",
         "type": "string",
-        "description": "Veeva Vault DNS"
+        "description": "Veeva Vault DNS.",
+        "order": 0,
+        "group": "data",
+        "examples": [
+          "https://{subdomain}.veevavault.com"
+        ]
       },
       "username": {
+        "title": "Veeva Vault user name",
         "type": "string",
-        "description": "Provide Veeva Vault username"
+        "description": "Provide Veeva Vault username.",
+        "order": 1,
+        "group": "data",
+        "examples": [
+          "my-veevault-username"
+        ]
       },
       "password": {
+        "title": "Veeva Vault user password",
         "type": "string",
-        "description": "Profive Veeva Vault password"
+        "description": "Profive Veeva Vault password.",
+        "order": 2,
+        "group": "data",
+        "examples": [
+          "*myV33veevaultvaultPa55W0rd*"
+        ],
+        "airbyte_secret": true
       },
       "api_version": {
+        "title": "Veeva Vault API Version",
         "type": "string",
-        "description": "Veeva Vault API Version specification - currently supports v23.2. See > https://developer.veevavault.com/docs/#versioning "
+        "description": "Veeva Vault API Version specification - currently supports v23.2. See > https://developer.veevavault.com/docs/#versioning ",
+        "order": 3,
+        "group": "data",
+        "examples": [
+          "v23.1",
+          "v23.2"
+        ],
+        "enum": [
+          "v23.1",
+          "v23.2"
+        ],
+        "default": "v23.2"
+      },
+      "target_format": {
+        "title": "Document Format",
+        "type": "object",
+        "description": "Veeva Vault Document format. This connector currently supports csv and pdf",
+        "order": 4,
+        "group": "data",
+        "oneOf": [
+          {
+            "title": "PDF - Portable Document Format",
+            "required": [
+              "format_type"
+            ],
+            "properties": {
+              "format_type": {
+                "title": "Format Type",
+                "type": "string",
+                "enum": [
+                  "pdf"
+                ],
+                "default": "pdf",
+                "order": 0
+              }
+            }
+          },
+          {
+            "title": "CSV - Character Delimited File",
+            "required": [
+              "format_type", "delimiter", "escape_character", "text_enclosure_char"
+            ],
+            "properties": {
+              "format_type": {
+                "title": "Format Type",
+                "type": "string",
+                "enum": [
+                  "csv"
+                ],
+                "default": "csv"
+              },
+              "delimiter": {
+                "title": "File Delimiter Character",
+                "description": "Field separator",
+                "type": "string",
+                "enum": [
+                  "comma",
+                  "pipe",
+                  "semi-colon",
+                  "right pointing angle",
+                  "section"
+                ],
+                "default": "comma"
+              },
+              "escape_character": {
+                "title": "Escape Character",
+                "description": "escape character value",
+                "type": "string",
+                "enum": [
+                  "back slash",
+                  "forward slash"
+                ],
+                "default": "back slash"
+              },
+              "text_enclosure_char": {
+                "title": "Text Enclosure Character",
+                "description": "Text enclosure",
+                "type": "string",
+                "enum": [
+                  "double quotes",
+                  "single quotes"
+                ],
+                "default": "double quotes"
+              }
+            }
+          }
+        ]
+      },
+      "type__v": {
+        "title": "type__v",
+        "type": "string",
+        "description": "The label of the document type to assign to the new document.",
+        "order": 4,
+        "group": "data",
+        "examples": [
+          "Unclassified"
+        ]
+      },
+      "lifecycle__v": {
+        "title": "lifecycle__v",
+        "type": "string",
+        "description": "The label of the document lifecycle to assign to the new document.",
+        "order": 4,
+        "group": "data",
+        "examples": [
+          "Promotional Piece",
+          "Inbox"
+        ]
+      },
+      "publish_to_adept": {
+        "title": "ADEPT Publish?",
+        "group": "metadata",
+        "type": "object",
+        "description": "Format of the data output. See <a href=\"https://docs.airbyte.com/integrations/destinations/s3/#supported-output-schema\">here</a> for more details",
+        "oneOf": [
+          {
+            "title": "No: Skip Publish",
+            "required": [
+              "action"
+            ],
+            "properties": {
+              "action": {
+                "title": "Action",
+                "type": "string",
+                "enum": [
+                  "skip"
+                ],
+                "default": "skip",
+                "order": 0
+              }
+            }
+          },
+          {
+            "title": "Yes: Publish",
+            "required": [
+              "action", "adept_instance_url", "adept_project_id", "adept_project_stage_name"
+            ],
+            "properties": {
+              "action": {
+                "title": "Action",
+                "type": "string",
+                "enum": [
+                  "publish"
+                ],
+                "default": "publish"
+              },
+              "adept_instance_url": {
+                "title": "ADEPT host URL",
+                "description": "ADEPT instance url",
+                "type": "string",
+                "default": "http://demo.adept.eoncollective.com",
+                "examples": [
+                  "http://demo.adept.eoncollective.com"
+                ]
+              },
+              "adept_project_id": {
+                "title": "ADEPT Project ID",
+                "description": "ADEPT project ID to publish to",
+                "type": "string",
+                "default": "",
+                "examples": [
+                  ""
+                ]
+              },
+              "adept_project_stage_name": {
+                "title": "ADEPT Stage or Service Name",
+                "description": "ADEPT service name to write to",
+                "type": "string",
+                "default": "airbyte_veeva_to_adept",
+                "examples": [
+                  "airbyte_to_adept",
+                  "{source}_to_adept"
+                ]
+              }
+            }
+          }
+        ],
+        "order": 5
       }
-    }
+    },
+    "groups": [
+      {
+        "id": "data",
+        "title": "Data Output"
+      },
+      {
+        "id": "metadata",
+        "title": "Metadata Output"
+      }
+    ]
   }
 }

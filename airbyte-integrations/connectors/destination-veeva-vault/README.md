@@ -46,15 +46,61 @@ and place them into `secrets/config.json`.
 python main.py spec
 ```
 
+##### To check spec on airbyte storybook
+copy paste the content of spec/json to link below under connector specification section
+
+```
+https://components.airbyte.dev/?path=/story/connector-connectorform--preview
+```
+
 #### To check connection to Destionation for Veeva Vault
 ```
-python main.py check --config secrets/config.json
+## to test/check config for csv output format with ADEPT publish enabled
+python main.py check --config secrets/csv_adept_publish.json
+
+## to test/check config for csv output format with ADEPT publish disabled
+python main.py check --config secrets/csv_adept_skip.json
+
+## to test/check config for pdf output format with ADEPT publish enabled
+python main.py check --config secrets/pdf_adept_publish.json
+
+## to test/check config for pdf output format with ADEPT publish disabled
+python main.py check --config secrets/pdf_adept_skip.json
+
 ```
 
-#### To test writing to destination
+#### To test APPEND writing to destination
 
 ```
-cat integration_tests/messages.jsonl| python main.py write --config secrets/config.json --catalog integration_tests/configured_catalog.json
+## to test write to csv output format with ADEPT publish enabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/csv_adept_publish.json --catalog integration_tests/test_catalog/append_configured_catalog.json
+
+## to test write to csv output format with ADEPT publish disabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/csv_adept_skip.json --catalog integration_tests/test_catalog/append_configured_catalog.json
+
+## to test write to pdf output format with ADEPT publish enabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/pdf_adept_publish.json --catalog integration_tests/test_catalog/append_configured_catalog.json
+
+## to test write to pdf output format with ADEPT publish disabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/pdf_adept_skip.json --catalog integration_tests/test_catalog/append_configured_catalog.json
+
+```
+
+#### To test OVERWRITE writing to destination
+
+```
+## to test write to csv output format with ADEPT publish enabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/csv_adept_publish.json --catalog integration_tests/test_catalog/overwrite_configured_catalog.json
+
+## to test write to csv output format with ADEPT publish disabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/csv_adept_skip.json --catalog integration_tests/test_catalog/overwrite_configured_catalog.json
+
+## to test write to pdf output format with ADEPT publish enabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/pdf_adept_publish.json --catalog integration_tests/test_catalog/overwrite_configured_catalog.json
+
+## to test write to pdf output format with ADEPT publish disabled
+cat integration_tests/messages.jsonl| python main.py write --config secrets/pdf_adept_skip.json --catalog integration_tests/test_catalog/overwrite_configured_catalog.json
+
 ```
 
 ### Locally running the connector docker image

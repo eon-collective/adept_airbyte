@@ -24,7 +24,7 @@ data:
   releaseDate: TODO
   releaseStage: alpha
   supportLevel: community
-  documentationUrl: https://docs.airbyte.com/integrations/destinations/veeva-vault
+  documentationUrl: https://adept-storage-1.s3.us-east-2.amazonaws.com/media/job/5636/output/5636/docs/Veeva_Vault_get_Documents_0.1.html
   tags:
     - language:python
 metadataSpecVersion: "1.0"

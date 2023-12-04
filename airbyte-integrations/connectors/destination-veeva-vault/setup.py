@@ -6,7 +6,7 @@
 from setuptools import find_packages, setup
 
 MAIN_REQUIREMENTS = [
-    "airbyte-cdk", "requests", "pandas"
+    "airbyte-cdk", "requests", "pandas", "pdfkit", "wkhtmltopdf"
 ]
 
 TEST_REQUIREMENTS = [

@@ -2,6 +2,7 @@
 # Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
+from distutils.command.config import config
 import time
 from collections.abc import Mapping
 from typing import Any, List
@@ -49,7 +50,10 @@ class VeevaVaultWriter:
             self.flush()
 
     def flush(self) -> None:
-        """Writes to VeevaVault"""
+        """Writes to VeevaVault using appropriate target format"""
         logger.info("flushing stream records")
-        self.client.batch_write(self.write_buffer)
+        if self.client.config["target_format"]["format_type"] == "csv":
+            self.client.batch_write_csv(self.write_buffer)
+        elif self.client.config["target_format"]["format_type"] == "pdf":
+            self.client.batch_write_pdf(self.write_buffer)
         self.write_buffer.clear()

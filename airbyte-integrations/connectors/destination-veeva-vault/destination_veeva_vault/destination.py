@@ -122,6 +122,7 @@ class DestinationVeevaVault(Destination):
         username = config.get("username")
         password = config.get("password")
         try:
+            print("Running check for Veeva Vault Connection. With the following configuration: "+ str(config))
             base_url = f"https://{veevaDNS}.veevavault.com/api/{api_version}"
             final_url = f"{base_url}/auth"
 

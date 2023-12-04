@@ -11,6 +11,8 @@ import json
 import os
 import pandas as pd
 import time
+import pdfkit as pdf
+
 
 logger = logging.getLogger("airbyte")
 
@@ -20,9 +22,11 @@ class VeevaVaultClient:
         self.username = config["username"]
         self.password = config["password"]
         self.api_version = config["api_version"]
+        # self.target_format = config["target_format"]["format_type"]
         self.table_metadata = table_metadata
+        self.config = config
 
-    def batch_write(self, records: List[Mapping[str, Any]]) -> requests.Response:
+    def batch_write_csv(self, records: List[Mapping[str, Any]]) -> requests.Response:
         """
         See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#post-apistreaming_importimport_airbyte_records
         """
@@ -46,6 +50,37 @@ class VeevaVaultClient:
                 f'{file_path}',
                 'rb'),
                 'text/csv'))
+        ]
+        # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
+        logger.info(f"formatting message to destination: {request_body}")
+        return self._request("POST", endpoint="objects/documents", data=request_body, files=files, file_path=file_path)
+    
+    def batch_write_pdf(self, records: List[Mapping[str, Any]]) -> requests.Response:
+        """
+        See VeevaVault docs: https://docs.VeevaVault.dev/http-api/#post-apistreaming_importimport_airbyte_records
+        """
+        filename = ""
+        for message in records:
+            filename = f"{message['tableName']}"
+
+        data_records = [record['data'] for record in records]
+        df = pd.DataFrame(data_records)
+        html_df = df.to_html(f"{filename}.html", index=False)
+        pdf.from_file(f"{filename}.html", f"{filename}.pdf")
+
+        # df.to_csv(filename, index=False)
+        file_path = os.path.abspath(f"{filename}.pdf")
+
+        # request_body = {"tables": self.table_metadata, "messages": records}
+        request_body={
+        'name__v': filename,
+        'type__v': 'Unclassified',
+        'lifecycle__v': 'Inbox',
+        }
+        files=[
+            ('file',(f'{filename}',open(
+                f'{file_path}',
+                'rb'),'application/pdf'))
         ]
         # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
         logger.info(f"formatting message to destination: {request_body}")
