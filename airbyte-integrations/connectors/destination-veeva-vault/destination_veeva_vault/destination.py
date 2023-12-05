@@ -97,12 +97,11 @@ class DestinationVeevaVault(Destination):
                 metadata["start_time"] = start_time
                 metadata["end_time"] = end_time
 
-                properties = metadata['fields']['properties']
-                df_data = {key: [] for key in properties.keys()}
-                df_data['start_time'] = metadata['start_time']
-                df_data['end_time'] = metadata['end_time']
-                df = pd.DataFrame(df_data)
-                
+                VeevaVaultClient(
+                    config, 
+                    self.table_metadata(configured_catalog.streams)
+                ).write_metadata(metadata)
+
             else:
                 # ignore other message types for now
                 continue

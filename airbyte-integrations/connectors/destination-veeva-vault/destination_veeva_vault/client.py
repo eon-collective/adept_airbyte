@@ -11,6 +11,7 @@ import json
 from csv2pdf import convert
 import os
 import pandas as pd
+from pandas import json_normalize
 import time
 import pdfkit as pdf
 
@@ -83,6 +84,45 @@ class VeevaVaultClient:
                 f'{file_path}',
                 'rb'),'application/pdf'))
         ]
+        # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
+        logger.info(f"formatting message to destination: {request_body}")
+        return self._request("POST", endpoint="objects/documents", data=request_body, files=files, file_path=file_path)
+
+    def write_metadata(self, metadata):
+        properties = metadata['fields']['properties']
+        df_data = {key: [] for key in properties.keys()}
+        df_data['start_time'] = metadata['start_time']
+        df_data['end_time'] = metadata['end_time']
+        filename = f"metadata_{metadata['name']}.csv"
+        # df = pd.DataFrame(df_data)
+        data = {
+            "fields": metadata["fields"],
+            "name": metadata["name"],
+            "sync_mode": metadata["sync_mode"][0] if metadata["sync_mode"] else None,
+            "default_cursor_field": metadata["default_cursor_field"],
+            "source_defined_primary_key": metadata["source_defined_primary_key"],
+            "namespace": metadata["namespace"],
+            "start_time": metadata["start_time"],
+            "end_time": metadata["end_time"]
+        }
+
+        # Create DataFrame
+        df = pd.DataFrame([data])
+        df.to_csv(filename, index=False)
+        file_path = os.path.abspath(filename)
+
+        request_body={
+        'name__v': filename,
+        'type__v': 'Unclassified',
+        'lifecycle__v': 'Inbox',
+        }
+        files=[
+            ('file',(f'{filename}',open(
+                f'{file_path}',
+                'rb'),
+                'text/csv'))
+        ]
+
         # application/vnd.openxmlformats-officedocument.wordprocessingml.document            
         logger.info(f"formatting message to destination: {request_body}")
         return self._request("POST", endpoint="objects/documents", data=request_body, files=files, file_path=file_path)
@@ -160,13 +200,12 @@ class VeevaVaultClient:
         )
         logger.info(f"Response: {response.json()}")
 
-        time.sleep(10)
         if response.status_code != 200:
             raise Exception(f"Request to {url} failed with: {response.status_code}: {response.json()}")
-        else:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-                logger.info(f'The file {file_path} has been successfully deleted.')
-            else:
-                logger.info(f'The file {file_path} does not exist.')
+        # else:
+        #     if os.path.exists(file_path):
+        #         os.remove(file_path)
+        #         logger.info(f'The file {file_path} has been successfully deleted.')
+        #     else:
+        #         logger.info(f'The file {file_path} does not exist.')
         return response
