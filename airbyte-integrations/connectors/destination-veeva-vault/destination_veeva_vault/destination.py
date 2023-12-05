@@ -95,7 +95,6 @@ class DestinationVeevaVault(Destination):
                 end_time = end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
                 metadata["start_time"] = start_time
                 metadata["end_time"] = end_time
-                print(metadata)
             else:
                 # ignore other message types for now
                 continue
