@@ -69,7 +69,7 @@ class VeevaVaultClient:
         data_records = [record['data'] for record in records]
         df = pd.DataFrame(data_records)
         df.to_csv(filename, index=False)
-
+        print("Create CSV")
         convert(f"{filename}.csv", f"{filename}.pdf")
 
         file_path = os.path.abspath(f"{filename}.pdf")
