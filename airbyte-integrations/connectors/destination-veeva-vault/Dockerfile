@@ -26,11 +26,6 @@ RUN echo "Etc/UTC" > /etc/timezone
 
 # bash is installed for more convenient debugging.
 RUN apk --no-cache add bash
-# Create image based on the official openjdk 8-jre-alpine image from the dockerhub
-# FROM openjdk:8-jre-alpine
-
-# # Install wkhtmltopdf
-# RUN apk add --no-cache wkhtmltopdf
 
 # copy payload code only
 COPY main.py ./
@@ -41,3 +36,9 @@ ENTRYPOINT ["python", "/airbyte/integration_code/main.py"]
 
 LABEL io.airbyte.version=0.1.1
 LABEL io.airbyte.name=airbyte/destination_veeva_vault
+
+# Create image based on the official openjdk 8-jre-alpine image from the dockerhub
+# FROM openjdk:8-jre-alpine as final
+
+# # Install wkhtmltopdf
+# RUN apk add --no-cache wkhtmltopdf

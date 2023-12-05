@@ -8,6 +8,7 @@ from typing import Any, Iterable, List, Mapping, Optional, cast
 import urllib
 from datetime import datetime
 import requests
+import pandas as pd
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
 from airbyte_cdk.models import (
@@ -95,6 +96,13 @@ class DestinationVeevaVault(Destination):
                 end_time = end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
                 metadata["start_time"] = start_time
                 metadata["end_time"] = end_time
+
+                properties = metadata['fields']['properties']
+                df_data = {key: [] for key in properties.keys()}
+                df_data['start_time'] = metadata['start_time']
+                df_data['end_time'] = metadata['end_time']
+                df = pd.DataFrame(df_data)
+                
             else:
                 # ignore other message types for now
                 continue

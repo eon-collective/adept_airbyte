@@ -8,6 +8,7 @@ import requests
 import logging
 from destination_veeva_vault.config import VeevaVaultConfig
 import json
+from csv2pdf import convert
 import os
 import pandas as pd
 import time
@@ -66,13 +67,12 @@ class VeevaVaultClient:
 
         data_records = [record['data'] for record in records]
         df = pd.DataFrame(data_records)
-        html_df = df.to_html(f"{filename}.html", index=False)
-        pdf.from_file(f"{filename}.html", f"{filename}.pdf")
+        df.to_csv(filename, index=False)
 
-        # df.to_csv(filename, index=False)
+        convert(f"{filename}.csv", f"{filename}.pdf")
+
         file_path = os.path.abspath(f"{filename}.pdf")
 
-        # request_body = {"tables": self.table_metadata, "messages": records}
         request_body={
         'name__v': filename,
         'type__v': 'Unclassified',
