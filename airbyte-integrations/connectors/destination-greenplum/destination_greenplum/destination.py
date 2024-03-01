@@ -4,6 +4,7 @@
 
 
 from typing import Any, Iterable, Mapping
+import psycopg2
 
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
@@ -30,6 +31,9 @@ class DestinationGreenplum(Destination):
         :param input_messages: The stream of input messages received from the source
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
+        # Read catalog, based on catalog name, for each stream, read input messages into a dataframe, 
+        # create a table if not exists for stream(incoming dataset/table name)
+        # insert input messages into table
 
         pass
 
@@ -47,7 +51,15 @@ class DestinationGreenplum(Destination):
         """
         try:
             # TODO
-
-            return AirbyteConnectionStatus(status=Status.SUCCEEDED)
+            host = config.get("host")
+            port = config.get("port")
+            username = config.get("username")
+            password = config.get("password")
+            database = config.get("database")
+            connector = psycopg2.connect(host=host, port=port, user=username, password=password, database=database)
+            cursor = connector.cursor()
+            cursor.execute("select 1;")
+            cursor.fetchall()
+            return AirbyteConnectionStatus(status=Status.SUCCEEDED, message="Succesfully connected to Greenplum Instance!!!!")
         except Exception as e:
             return AirbyteConnectionStatus(status=Status.FAILED, message=f"An exception occurred: {repr(e)}")

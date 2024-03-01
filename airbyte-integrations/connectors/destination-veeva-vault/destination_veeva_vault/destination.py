@@ -166,7 +166,7 @@ class DestinationVeevaVault(Destination):
                     logger.error(f"'sessionId' not found in response from {final_url}. Failing source veeva vault connection check")
                     return AirbyteConnectionStatus(status=Status.FAILED, message=response.text)
                 return AirbyteConnectionStatus(status=Status.SUCCEEDED)
-            return AirbyteConnectionStatus(status=Status.FAILED, message=response.text)
+            return AirbyteConnectionStatus(status=Status.FAILED)
         except Exception as e:
             return AirbyteConnectionStatus(status=Status.FAILED,
                 message=f"An exception occurred: {e}. \nStacktrace: \n{e.format_exc()}",
