@@ -2,22 +2,38 @@
 # Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
-
+import datetime
+import json
+import uuid
 from typing import Any, Iterable, Mapping
 import psycopg2
+import logging
+from collections import defaultdict
 
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
 from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status
 
+from airbyte_cdk.models import (
+    AirbyteConnectionStatus,
+    AirbyteMessage,
+    ConfiguredAirbyteCatalog,
+    ConfiguredAirbyteStream,
+    DestinationSyncMode,
+    Status,
+    Type,
+)
 
+GreenplumAirbyteLogger = logging.getLogger("airbyte")
 class DestinationGreenplum(Destination):
     def write(
-        self, config: Mapping[str, Any], configured_catalog: ConfiguredAirbyteCatalog, input_messages: Iterable[AirbyteMessage]
-    ) -> Iterable[AirbyteMessage]:
+        self, 
+        config: Mapping[str, Any], 
+        configured_catalog: ConfiguredAirbyteCatalog, 
+        input_messages: Iterable[AirbyteMessage]) -> Iterable[AirbyteMessage]:
 
         """
-        TODO
+        
         Reads the input stream of messages, config, and catalog to write data to the destination.
 
         This method returns an iterable (typically a generator of AirbyteMessages via yield) containing state messages received
@@ -31,11 +47,91 @@ class DestinationGreenplum(Destination):
         :param input_messages: The stream of input messages received from the source
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
-        # Read catalog, based on catalog name, for each stream, read input messages into a dataframe, 
-        # create a table if not exists for stream(incoming dataset/table name)
-        # insert input messages into table
+        streams =  {configured_stream.stream.name: configured_stream for configured_stream in configured_catalog.streams}
+        GreenplumAirbyteLogger.info(msg=f"Starting write to Greenplum {len(streams)} streams")
 
-        pass
+        host = config.get("host")
+        port = config.get("port")
+        username = config.get("username")
+        password = config.get("password")
+        database = config.get("database")
+        schema_name = config.get("schema")
+
+        GreenplumAirbyteLogger.info(msg=f"Connecting to Greenplum {host}:{port}")
+        connector = psycopg2.connect(host=host, port=port, user=username, password=password, database=database)
+        cursor = connector.cursor()
+
+        for configured_stream in configured_catalog.streams:
+            name = configured_stream.stream.name
+            table_name = f"_airbyte_raw_{name}"
+            if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
+                # delete the tables
+                GreenplumAirbyteLogger.info(msg=f"Dropping tables for overwrite: {table_name}")
+                query = f"DROP TABLE IF EXISTS {table_name}"
+                cursor.execute(query)
+                GreenplumAirbyteLogger.info(msg=f"Table dropped: {table_name}")
+            
+            # create the table if needed
+            query = f"""CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} 
+            ( _airbyte_ab_id TEXT PRIMARY KEY,
+              _airbyte_emitted_at timestamp,
+              _airbyte_data JSON);"""
+            cursor.execute(query)
+
+        buffer = defaultdict(list)
+
+        for message in input_messages:
+            if message.type == Type.STATE:
+                for stream_name in buffer.keys():
+
+                    GreenplumAirbyteLogger.info(f"---mesage: {message}")
+
+                    query = f"""
+                    INSERT INTO {schema_name}._airbyte_raw_{stream_name}
+                    VALUES (_airbyte_ab_id, _airbyte_emitted_at, _airbyte_data JSON)
+                    """
+                    logger.info(f"query: {query}")
+
+                    cursor.executemany(query, buffer[stream_name])
+                    GreenplumAirbyteLogger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
+                    connector.commit()
+                    GreenplumAirbyteLogger.info(f'Sql Executed {self.sql}', exc_info=True)
+                    buffer = defaultdict(list)
+                    yield message
+            elif message.type == Type.RECORD:
+                data= message.record.data
+                stream = message.record.stream
+                if stream not in streams:
+                    GreenplumAirbyteLogger.debug(f"Stream {stream} was not present in configured streams, skipping")
+                    continue
+
+                # add to buffer
+                buffer[stream].append(
+                    (
+                        str(uuid.uuid4()), 
+                        datetime.datetime.now().isoformat(),
+                        json.dumps(data)
+                    )
+                )
+            else:
+                GreenplumAirbyteLogger.info(f"Message type {message.type} not supported, skipping")
+
+        # flush any remaining messages
+        for stream_name in buffer.keys():
+            table_name = f"_airbyte_raw_{stream_name}"
+            query = f"""
+            INSERT INTO {schema_name}.{table_name}
+            VALUES (%s,%s,%s)
+            """
+
+            GreenplumAirbyteLogger.info(msg=f"Inserting {len(buffer[stream_name])} rows into {table_name}")
+            cursor.executemany(query, buffer[stream_name])
+            GreenplumAirbyteLogger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
+            connector.commit()
+            GreenplumAirbyteLogger.info(f'Sql Executed {query}', exc_info=True)
+            buffer = defaultdict(list)
+            yield message
+
 
     def check(self, logger: AirbyteLogger, config: Mapping[str, Any]) -> AirbyteConnectionStatus:
         """
@@ -50,7 +146,6 @@ class DestinationGreenplum(Destination):
         :return: AirbyteConnectionStatus indicating a Success or Failure
         """
         try:
-            # TODO
             host = config.get("host")
             port = config.get("port")
             username = config.get("username")
