@@ -24,7 +24,7 @@ from airbyte_cdk.models import (
     Type,
 )
 
-GreenplumAirbyteLogger = logging.getLogger("airbyte")
+loger = logging.getLogger("airbyte")
 class DestinationGreenplum(Destination):
     def write(
         self, 
@@ -48,7 +48,7 @@ class DestinationGreenplum(Destination):
         :return: Iterable of AirbyteStateMessages wrapped in AirbyteMessage structs
         """
         streams =  {configured_stream.stream.name: configured_stream for configured_stream in configured_catalog.streams}
-        GreenplumAirbyteLogger.info(msg=f"Starting write to Greenplum {len(streams)} streams")
+        loger.info(msg=f"Starting write to Greenplum {len(streams)} streams")
 
         host = config.get("host")
         port = config.get("port")
@@ -57,7 +57,7 @@ class DestinationGreenplum(Destination):
         database = config.get("database")
         schema_name = config.get("schema")
 
-        GreenplumAirbyteLogger.info(msg=f"Connecting to Greenplum {host}:{port}")
+        loger.info(msg=f"Connecting to Greenplum {host}:{port}")
         connector = psycopg2.connect(host=host, port=port, user=username, password=password, database=database)
         cursor = connector.cursor()
 
@@ -66,43 +66,49 @@ class DestinationGreenplum(Destination):
             table_name = f"_airbyte_raw_{name}"
             if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
                 # delete the tables
-                GreenplumAirbyteLogger.info(msg=f"Dropping tables for overwrite: {table_name}")
+                loger.info(msg=f"Dropping tables for overwrite: {table_name}")
                 query = f"DROP TABLE IF EXISTS {table_name}"
                 cursor.execute(query)
-                GreenplumAirbyteLogger.info(msg=f"Table dropped: {table_name}")
+                loger.info(msg=f"Table dropped: {table_name}")
+                
             
             # create the table if needed
-            query = f"""CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} 
-            ( _airbyte_ab_id TEXT PRIMARY KEY,
-              _airbyte_emitted_at timestamp,
-              _airbyte_data JSON);"""
+            query = f"""CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} ( _airbyte_ab_id TEXT PRIMARY KEY, _airbyte_emitted_at timestamp, _airbyte_data JSON);"""
+            loger.info(msg=f'{query}')
             cursor.execute(query)
+            connector.commit()
+            loger.info(msg=f"Table created: {schema_name}.{table_name}")
 
         buffer = defaultdict(list)
 
         for message in input_messages:
+            
             if message.type == Type.STATE:
+                
                 for stream_name in buffer.keys():
 
-                    GreenplumAirbyteLogger.info(f"---mesage: {message}")
+                    loger.info(f"---mesage: {message}")
 
                     query = f"""
                     INSERT INTO {schema_name}._airbyte_raw_{stream_name}
-                    VALUES (_airbyte_ab_id, _airbyte_emitted_at, _airbyte_data JSON)
+                    VALUES (%s, %s, %s)
                     """
-                    logger.info(f"query: {query}")
+                    loger.info(f"Inserting {len(buffer[stream_name])} rows into {table_name}")
+                    print(buffer[stream_name])
 
                     cursor.executemany(query, buffer[stream_name])
-                    GreenplumAirbyteLogger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
+                    loger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
                     connector.commit()
-                    GreenplumAirbyteLogger.info(f'Sql Executed {self.sql}', exc_info=True)
+                    loger.info(f'Sql Executed {self.sql}', exc_info=True)
                     buffer = defaultdict(list)
                     yield message
             elif message.type == Type.RECORD:
-                data= message.record.data
+                
+                data = message.record.data
                 stream = message.record.stream
+                loger.info(msg=f"{stream}")
                 if stream not in streams:
-                    GreenplumAirbyteLogger.debug(f"Stream {stream} was not present in configured streams, skipping")
+                    loger.debug(f"Stream {stream} was not present in configured streams, skipping")
                     continue
 
                 # add to buffer
@@ -113,8 +119,9 @@ class DestinationGreenplum(Destination):
                         json.dumps(data)
                     )
                 )
+                
             else:
-                GreenplumAirbyteLogger.info(f"Message type {message.type} not supported, skipping")
+                loger.info(f"Message type {message.type} not supported, skipping")
 
         # flush any remaining messages
         for stream_name in buffer.keys():
@@ -124,11 +131,11 @@ class DestinationGreenplum(Destination):
             VALUES (%s,%s,%s)
             """
 
-            GreenplumAirbyteLogger.info(msg=f"Inserting {len(buffer[stream_name])} rows into {table_name}")
+            loger.info(msg=f"Inserting {len(buffer[stream_name])} rows into {table_name}")
             cursor.executemany(query, buffer[stream_name])
-            GreenplumAirbyteLogger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
+            loger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
             connector.commit()
-            GreenplumAirbyteLogger.info(f'Sql Executed {query}', exc_info=True)
+            loger.info(f'Sql Executed {query}', exc_info=True)
             buffer = defaultdict(list)
             yield message
 
