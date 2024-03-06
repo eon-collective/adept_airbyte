@@ -85,6 +85,31 @@ class TestGreenplumWriter(unittest.TestCase):
             # Assert that commit and close methods were called
             mock_cursor.commit.a
             mock_cursor.close.assert_called_once()
+    def test_greenplum_connection_close(self):
+        # Mock the psycopg2.connect method to avoid actual database connection
+        with unittest.mock.patch('psycopg2.connect') as mock_connect:
+            # Mock the close method
+            mock_connector = MagicMock()
+            mock_connect.return_value = mock_connector
+
+            # Call the greenplum__connection_close method
+            self.greenplum_writer.greenplum__connection_close()
+
+            # Assert that psycopg2.connect was called with the correct parameters
+            mock_connect.assert_called_with(
+                host=self.configs["host"],
+                port=self.configs["port"],
+                user=self.configs["username"],
+                password=self.configs["password"],
+                database=self.configs["database"]
+            )
+
+            # Assert that the close method was called
+            mock_connector.close.assert_called_once()
+    def test_greenplum__connection_close(self):
+        writer = self.greenplum_writer
+        assert writer.greenplum__connection_close() is None
+
             
 if __name__ == '__main__':
     unittest.main()
