@@ -24,6 +24,15 @@ class TestGreenplumWriter(unittest.TestCase):
         self.greenplum_writer = GreenplumWriter(self.configs)
 
     def test_greenplum_writer(self):
+        """
+        Test the greenplum_writer method.
+
+        This method tests the greenplum_writer method by mocking the psycopg2.connect method and creating a mock cursor. 
+        The mock cursor is used to mock the execute method. A sample query is provided to test the method.
+
+        Returns:
+            None
+        """
         # Mock the psycopg2.connect method to avoid actual database connection
         with unittest.mock.patch('psycopg2.connect') as mock_connect:
             # Mock the cursor and execute method
@@ -52,6 +61,17 @@ class TestGreenplumWriter(unittest.TestCase):
             mock_cursor.close.assert_called_once()
 
     def test_greenplum_writer_insert(self):
+        """
+        Test the greenplum_writer_insert method.
+
+        This method tests the greenplum_writer_insert method by mocking the psycopg2.connect method and creating a 
+        mock cursor. 
+        The mock cursor is used to mock the execute method. 
+        A sample query and list of values are provided to test the method.
+
+        Returns:
+            None
+        """
         # Mock the psycopg2.connect method to avoid actual database connection
         with unittest.mock.patch('psycopg2.connect') as mock_connect:
             # Mock the cursor and execute method
@@ -86,6 +106,15 @@ class TestGreenplumWriter(unittest.TestCase):
             mock_cursor.commit.a
             mock_cursor.close.assert_called_once()
     def test_greenplum_connection_close(self):
+        """
+        Test the greenplum_connection_close method.
+
+        This method tests the greenplum_connection_close method by mocking the psycopg2.connect method and 
+        mocking the close method of the mock connector.
+
+        Returns:
+            None
+        """
         # Mock the psycopg2.connect method to avoid actual database connection
         with unittest.mock.patch('psycopg2.connect') as mock_connect:
             # Mock the close method
@@ -107,6 +136,13 @@ class TestGreenplumWriter(unittest.TestCase):
             # Assert that the close method was called
             mock_connector.close.assert_called_once()
     def test_greenplum__connection_close(self):
+        """
+        This method tests the greenplum__connection_close method by mocking the psycopg2.connect method and 
+        mocking the close method of the mock connector.
+
+        Returns:
+            None
+        """
         writer = self.greenplum_writer
         assert writer.greenplum__connection_close() is None
 
