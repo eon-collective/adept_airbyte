@@ -34,7 +34,7 @@ class GreenplumWriter:
         connector = self._greenplum_connection()
         cursor = connector.cursor()
         cursor.executemany(query=query, vars_list=values)
-        connector.commit()
+        cursor.commit()
         logging.info(msg=f'Sql Executed {query}', exc_info=True)
         cursor.close()
         logging.info(msg=f"Objects written to Greenplum {self.host}:{self.port}")
