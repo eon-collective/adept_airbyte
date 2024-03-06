@@ -29,7 +29,7 @@ class GreenplumWriter:
         self.database = configs.get("database")
         self.schema = configs.get("schema")
 
-    def _greenplum_connection(self) -> psycopg2.connection:
+    def _greenplum_connection(self) -> psycopg2.connect:
         """
         Creates a psycopg2 connection to the Greenplum database.
         
@@ -51,11 +51,11 @@ class GreenplumWriter:
 
         """
         logging.info(msg=f"Connecting to Greenplum {self.host}:{self.port}")
-        connector = psycopg2.connect(host=self.host, port=self.port, user=self.username, password=self.password, database=self.database)
+        connector = self._greenplum_connection()
         cursor = connector.cursor()
 
         cursor.execute(query=query, vars=values)
-        cursor.commit()
+        connector.commit()
         logging.info(msg=f'Sql Executed {query}', exc_info=True)
         cursor.close()
         logging.info(msg=f"Objects written to Greenplum {self.host}:{self.port}")
@@ -70,11 +70,10 @@ class GreenplumWriter:
 
         """
         logging.info(msg=f"Connecting to Greenplum {self.host}:{self.port}")
-        print(values)
         connector = self._greenplum_connection()
         cursor = connector.cursor()
         cursor.executemany(query=query, vars_list=values)
-        cursor.commit()
+        connector.commit()
         logging.info(msg=f'Sql Executed {query}', exc_info=True)
         cursor.close()
         logging.info(msg=f"Objects written to Greenplum {self.host}:{self.port}")  

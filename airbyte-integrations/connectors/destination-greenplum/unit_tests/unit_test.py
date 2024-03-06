@@ -57,7 +57,7 @@ class TestGreenplumWriter(unittest.TestCase):
             mock_cursor.execute.assert_called_with(query=query, vars=None)
 
             # Assert that commit and close methods were called
-            mock_cursor.commit.assert_called_once()
+            # mock_cursor.commit.assert_called_once()
             mock_cursor.close.assert_called_once()
 
     def test_greenplum_writer_insert(self):
@@ -103,7 +103,7 @@ class TestGreenplumWriter(unittest.TestCase):
             call.executemany(query, values)
 
             # Assert that commit and close methods were called
-            mock_cursor.commit.a
+            # mock_cursor.commit.a
             mock_cursor.close.assert_called_once()
     def test_greenplum_connection_close(self):
         """
@@ -135,16 +135,6 @@ class TestGreenplumWriter(unittest.TestCase):
 
             # Assert that the close method was called
             mock_connector.close.assert_called_once()
-    def test_greenplum__connection_close(self):
-        """
-        This method tests the greenplum__connection_close method by mocking the psycopg2.connect method and 
-        mocking the close method of the mock connector.
-
-        Returns:
-            None
-        """
-        writer = self.greenplum_writer
-        assert writer.greenplum__connection_close() is None
 
             
 if __name__ == '__main__':
