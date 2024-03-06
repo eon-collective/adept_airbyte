@@ -13,6 +13,7 @@ from collections import defaultdict
 from airbyte_cdk import AirbyteLogger
 from airbyte_cdk.destinations import Destination
 from airbyte_cdk.models import AirbyteConnectionStatus, AirbyteMessage, ConfiguredAirbyteCatalog, Status
+from destination_greenplum.write import GreenplumWriter
 
 from airbyte_cdk.models import (
     AirbyteConnectionStatus,
@@ -50,16 +51,8 @@ class DestinationGreenplum(Destination):
         streams =  {configured_stream.stream.name: configured_stream for configured_stream in configured_catalog.streams}
         loger.info(msg=f"Starting write to Greenplum {len(streams)} streams")
 
-        host = config.get("host")
-        port = config.get("port")
-        username = config.get("username")
-        password = config.get("password")
-        database = config.get("database")
         schema_name = config.get("schema")
-
-        loger.info(msg=f"Connecting to Greenplum {host}:{port}")
-        connector = psycopg2.connect(host=host, port=port, user=username, password=password, database=database)
-        cursor = connector.cursor()
+        greenplumwriter = GreenplumWriter(config)
 
         for configured_stream in configured_catalog.streams:
             name = configured_stream.stream.name
@@ -68,15 +61,14 @@ class DestinationGreenplum(Destination):
                 # delete the tables
                 loger.info(msg=f"Dropping tables for overwrite: {table_name}")
                 query = f"DROP TABLE IF EXISTS {table_name}"
-                cursor.execute(query)
+                greenplumwriter.greenplum__writer(query)
                 loger.info(msg=f"Table dropped: {table_name}")
                 
             
             # create the table if needed
             query = f"""CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} ( _airbyte_ab_id TEXT PRIMARY KEY, _airbyte_emitted_at timestamp, _airbyte_data JSON);"""
             loger.info(msg=f'{query}')
-            cursor.execute(query)
-            connector.commit()
+            greenplumwriter.greenplum__writer(query)
             loger.info(msg=f"Table created: {schema_name}.{table_name}")
 
         buffer = defaultdict(list)
@@ -94,11 +86,9 @@ class DestinationGreenplum(Destination):
                     VALUES (%s, %s, %s)
                     """
                     loger.info(f"Inserting {len(buffer[stream_name])} rows into {table_name}")
-                    print(buffer[stream_name])
-
-                    cursor.executemany(query, buffer[stream_name])
+                    greenplumwriter.greenplum__writer_insert(query=query, values=buffer[stream_name])
                     loger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
-                    connector.commit()
+                    greenplumwriter.greenplum__writer_insert(query=query, values=buffer[stream_name])
                     loger.info(f'Sql Executed {self.sql}', exc_info=True)
                     buffer = defaultdict(list)
                     yield message
@@ -132,10 +122,8 @@ class DestinationGreenplum(Destination):
             """
 
             loger.info(msg=f"Inserting {len(buffer[stream_name])} rows into {table_name}")
-            cursor.executemany(query, buffer[stream_name])
+            greenplumwriter.greenplum__writer_insert(query=query, values=buffer[stream])
             loger.info(msg=f"rows inserted: {len(buffer[stream_name])}")
-            connector.commit()
-            loger.info(f'Sql Executed {query}', exc_info=True)
             buffer = defaultdict(list)
             yield message
 
