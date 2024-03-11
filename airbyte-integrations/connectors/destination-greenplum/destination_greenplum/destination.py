@@ -96,7 +96,7 @@ class DestinationGreenplum(Destination):
                 
                 data = message.record.data
                 stream = message.record.stream
-                loger.info(msg=f"{stream}")
+                loger.info(msg=f"{stream} Details {message.type}")
                 if stream not in streams:
                     loger.debug(f"Stream {stream} was not present in configured streams, skipping")
                     continue
@@ -120,7 +120,6 @@ class DestinationGreenplum(Destination):
             INSERT INTO {schema_name}.{table_name}
             VALUES (%s,%s,%s)
             """
-
             loger.info(msg=f"Inserting {len(buffer[stream_name])} rows into {table_name}")
             greenplumwriter.greenplum__writer_insert(query=query, values=buffer[stream])
             loger.info(msg=f"rows inserted: {len(buffer[stream_name])}")

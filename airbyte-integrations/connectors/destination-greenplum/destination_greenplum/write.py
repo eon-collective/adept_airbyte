@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2 import extras
 import logging
 from typing import Any, Iterable, Mapping
 
@@ -72,7 +73,10 @@ class GreenplumWriter:
         logging.info(msg=f"Connecting to Greenplum {self.host}:{self.port}")
         connector = self._greenplum_connection()
         cursor = connector.cursor()
-        cursor.executemany(query=query, vars_list=values)
+        extras.execute_batch(cur=cursor, sql=query, argslist=values, page_size=1000)
+        # cursor.executemany(query=query, vars_list=values)
+        # print(query)
+        # (query=query, vars_list=values)
         connector.commit()
         logging.info(msg=f'Sql Executed {query}', exc_info=True)
         cursor.close()
