@@ -3,6 +3,9 @@
   "supported_destination_sync_modes": [
     "overwrite", "append"
   ],
+  "supportsIncremental": true,
+  "supportsNormalization": true,
+  "supportsDBT": true,
   "connectionSpecification": {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Greenplum Destination Spec",
@@ -216,8 +219,5 @@
         "order": 8
       }
     }
-  },
-  "supportsNormalization": true,
-  "supportsDBT": true,
-  "supportsIncremental": true
+  }
 }
