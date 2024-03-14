@@ -6,7 +6,7 @@
 from setuptools import find_packages, setup
 
 MAIN_REQUIREMENTS = [
-    "airbyte-cdk", "psycopg2-binary"
+    "airbyte-cdk", "psycopg2-binary", "faker"
 ]
 
 TEST_REQUIREMENTS = ["pytest~=6.2"]
