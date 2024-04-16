@@ -1,4 +1,5 @@
 import json
+import jsonlines
 from faker import Faker
 from datetime import datetime
 
@@ -46,8 +47,11 @@ def generate_messages(records):
     for record in records:
         message = {
             "type": "RECORD",
-            "stream": "sales_data",
-            "record": record
+            "record": {
+                "stream": "sales_data",
+                "emitted_at": datetime.timestamp(datetime.now()),
+                "data": record,
+            }
         }
         messages.append(message)
     return messages
@@ -60,14 +64,14 @@ def saving_messages_to_file(messages, file_path):
         messages (list): A list of messages.
         file_path (str): The path to the file.
     """
-    with open(file_path, "w") as outfile:
+    with open(file_path, "w") as f:
         for message in messages:
-            json.dump(message, outfile)
-            outfile.write('\n')
+            json.dump(message, f)
+            f.write("\n")
 
 
 if __name__ == "__main__":
     data_generator = DataGenerator()
     records = data_generator.generate_records()
     messages = generate_messages(records)
-    saving_messages_to_file(messages, "airbyte-integrations/connectors/destination-greenplum/integration_tests/messages.jsonl")
+    saving_messages_to_file(messages, "/Users/danielmalungu/Documents/adept_airbyte/airbyte-integrations/connectors/destination-greenplum/integration_tests/messages.jsonl")

@@ -72,9 +72,7 @@ class DestinationGreenplum(Destination):
             loger.info(msg=f"Table created: {schema_name}.{table_name}")
 
         buffer = defaultdict(list)
-
         for message in input_messages:
-            
             if message.type == Type.STATE:
                 
                 for stream_name in buffer.keys():

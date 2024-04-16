@@ -3,6 +3,17 @@ from psycopg2 import extras
 import logging
 from typing import Any, Iterable, Mapping
 
+
+from airbyte_cdk.models import (
+    AirbyteConnectionStatus,
+    AirbyteMessage,
+    ConfiguredAirbyteCatalog,
+    ConfiguredAirbyteStream,
+    DestinationSyncMode,
+    Status,
+    Type,
+)
+
 logging = logging.getLogger("airbyte")
 
 class GreenplumWriter:
@@ -93,3 +104,37 @@ class GreenplumWriter:
         connector = self._greenplum_connection()
         connector.close()
 
+
+class NormalizationWriter(GreenplumWriter):
+    """
+    The NormalizationWriter class is used to write data and manupulate objects on a Greenplum database.
+
+    Args:
+        configs (Mapping[str, Any]): A mapping of configuration properties to values."""
+    
+    def __init__(self, configs: Mapping[str, Any]):
+        super().__init__(configs=configs)
+        self.configured_catalog = ConfiguredAirbyteCatalog
+        self.input_messages: Iterable[AirbyteMessage]
+
+    def _datatypes_mapping(self):
+        return {
+            "string": "text",
+            "boolean": "boolean",
+            "bit": "boolean",
+            "date": "date",
+            "decimal": "NUMERIC",
+            "double": "DOUBLE PRECISION",
+            "float": "REAL",
+            "int": "INTEGER",
+            "json": "JSON",
+            "jsonb": "JSONB",
+            "text": "TEXT",
+            "time": "TIME WITHOUT TIME ZONE",
+            "timestamp": "TIMESTAMP WITHOUT TIME ZONE",
+            "timestamptz": "TIMESTAMP WITH TIME ZONE",
+            "uuid": "UUID",
+        }
+
+
+    

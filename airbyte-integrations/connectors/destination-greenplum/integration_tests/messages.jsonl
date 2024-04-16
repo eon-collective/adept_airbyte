@@ -1,100 +1,100 @@
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 72689, "customer_id": 41505, "amount": 966.55, "order_date": "2024-01-22T03:48:40.938276"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 60049, "customer_id": 86200, "amount": 601.16, "order_date": "2024-01-21T22:37:01.049100"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 76791, "customer_id": 73191, "amount": 8048.26, "order_date": "2024-01-06T19:40:23.255423"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 86672, "customer_id": 35367, "amount": 9516.36, "order_date": "2024-01-08T23:05:28.168488"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 48010, "customer_id": 1285, "amount": 2295.42, "order_date": "2024-02-10T09:13:32.684783"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 16022, "customer_id": 71777, "amount": 6389.86, "order_date": "2024-01-03T02:55:30.584954"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 32188, "customer_id": 92965, "amount": 5284.34, "order_date": "2024-01-13T00:38:12.631015"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 89171, "customer_id": 11500, "amount": 8459.37, "order_date": "2024-01-11T19:36:10.147330"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 93846, "customer_id": 46554, "amount": 385.42, "order_date": "2024-02-29T03:48:57.210298"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 11933, "customer_id": 93059, "amount": 8221.28, "order_date": "2024-02-08T13:40:36.336716"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 32659, "customer_id": 82391, "amount": 4241.55, "order_date": "2024-02-08T01:40:22.816393"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 89094, "customer_id": 24512, "amount": 5898.19, "order_date": "2024-03-04T05:33:23.591249"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 59037, "customer_id": 40860, "amount": 5968.92, "order_date": "2024-01-27T09:45:24.049790"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 41654, "customer_id": 94846, "amount": 4074.41, "order_date": "2024-01-31T15:49:49.550693"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 11481, "customer_id": 81966, "amount": 519.62, "order_date": "2024-03-11T17:51:20.811676"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 23709, "customer_id": 75849, "amount": 2779.5, "order_date": "2024-02-28T18:44:50.340151"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 6611, "customer_id": 67803, "amount": 6608.65, "order_date": "2024-01-01T22:20:25.698410"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 8614, "customer_id": 27236, "amount": 2150.34, "order_date": "2024-03-13T21:09:29.822792"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 24462, "customer_id": 47389, "amount": 6681.33, "order_date": "2024-02-19T04:16:00.234396"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 42987, "customer_id": 35317, "amount": 4231.52, "order_date": "2024-01-13T17:42:09.046153"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 3973, "customer_id": 57227, "amount": 2613.6, "order_date": "2024-01-09T11:41:37.332001"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 98186, "customer_id": 79447, "amount": 5314.89, "order_date": "2024-02-07T05:20:31.319298"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 90118, "customer_id": 16731, "amount": 4678.93, "order_date": "2024-03-13T16:34:27.717899"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 28094, "customer_id": 11937, "amount": 3598.01, "order_date": "2024-01-18T22:32:12.799890"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 84455, "customer_id": 12964, "amount": 3808.26, "order_date": "2024-02-16T09:18:45.013340"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 86811, "customer_id": 84260, "amount": 9831.71, "order_date": "2024-01-20T21:36:37.953695"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 91958, "customer_id": 3229, "amount": 63.44, "order_date": "2024-01-25T23:51:51.882855"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 8271, "customer_id": 97178, "amount": 6324.06, "order_date": "2024-01-15T09:37:28.693529"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 54308, "customer_id": 67685, "amount": 8867.22, "order_date": "2024-02-11T08:13:33.643032"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 3745, "customer_id": 23027, "amount": 4012.55, "order_date": "2024-01-30T07:25:01.531945"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 54076, "customer_id": 60617, "amount": 3089.19, "order_date": "2024-01-30T04:02:08.999238"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 99929, "customer_id": 10234, "amount": 8360.9, "order_date": "2024-02-06T07:09:55.735278"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 49904, "customer_id": 81471, "amount": 7238.85, "order_date": "2024-01-07T17:05:11.944587"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 20146, "customer_id": 12909, "amount": 607.05, "order_date": "2024-01-27T19:01:18.590333"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 2651, "customer_id": 75694, "amount": 4499.66, "order_date": "2024-03-09T08:15:22.353776"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 31176, "customer_id": 55351, "amount": 2351.05, "order_date": "2024-01-24T05:31:33.510102"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 42346, "customer_id": 59336, "amount": 2310.35, "order_date": "2024-01-28T17:37:48.228736"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 39599, "customer_id": 99768, "amount": 7209.57, "order_date": "2024-02-14T19:51:24.490213"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 58598, "customer_id": 63462, "amount": 8533.97, "order_date": "2024-01-02T14:22:45.861894"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 76200, "customer_id": 29816, "amount": 2598.27, "order_date": "2024-02-29T15:34:23.020405"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 92155, "customer_id": 32680, "amount": 562.3, "order_date": "2024-02-25T03:37:52.450411"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 48767, "customer_id": 77454, "amount": 7554.16, "order_date": "2024-02-13T11:05:13.756810"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 20835, "customer_id": 20177, "amount": 5432.84, "order_date": "2024-01-30T23:23:57.499347"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 81469, "customer_id": 85847, "amount": 2764.4, "order_date": "2024-01-26T14:56:20.472998"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 96299, "customer_id": 64545, "amount": 5980.13, "order_date": "2024-01-10T13:05:17.629922"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 1960, "customer_id": 50222, "amount": 5886.06, "order_date": "2024-03-02T03:15:09.627954"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 63218, "customer_id": 8684, "amount": 7041.36, "order_date": "2024-01-28T10:56:36.604728"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 47612, "customer_id": 35532, "amount": 9427.88, "order_date": "2024-02-01T23:45:18.106555"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 60448, "customer_id": 15595, "amount": 2923.72, "order_date": "2024-01-16T12:12:58.304644"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 96828, "customer_id": 5285, "amount": 8206.79, "order_date": "2024-01-22T12:46:41.161529"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 50394, "customer_id": 82473, "amount": 9149.98, "order_date": "2024-03-13T10:47:13.735505"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 26017, "customer_id": 28202, "amount": 8199.28, "order_date": "2024-03-09T22:29:19.571832"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 605, "customer_id": 27290, "amount": 8536.17, "order_date": "2024-01-04T07:34:03.628839"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 53014, "customer_id": 75619, "amount": 4399.61, "order_date": "2024-01-07T05:34:58.408393"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 32721, "customer_id": 33338, "amount": 5732.27, "order_date": "2024-02-20T04:16:14.289024"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 11760, "customer_id": 9020, "amount": 5874.23, "order_date": "2024-02-14T07:52:44.208218"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 50009, "customer_id": 90567, "amount": 9734.01, "order_date": "2024-02-14T10:34:33.929693"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 49100, "customer_id": 72003, "amount": 1031.0, "order_date": "2024-01-04T13:11:06.627445"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 20796, "customer_id": 72116, "amount": 5149.63, "order_date": "2024-01-07T18:13:34.850772"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 3203, "customer_id": 13468, "amount": 8877.46, "order_date": "2024-01-24T22:12:49.041394"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 80691, "customer_id": 44086, "amount": 5746.93, "order_date": "2024-02-29T22:49:12.729281"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 41859, "customer_id": 18737, "amount": 9247.99, "order_date": "2024-02-09T09:36:22.202872"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 16509, "customer_id": 27324, "amount": 315.64, "order_date": "2024-03-06T05:15:07.352472"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 65458, "customer_id": 10050, "amount": 3768.87, "order_date": "2024-02-09T21:49:18.588946"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 53740, "customer_id": 92657, "amount": 2904.04, "order_date": "2024-03-10T10:14:38.670977"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 84368, "customer_id": 20747, "amount": 7985.35, "order_date": "2024-01-03T14:17:19.287923"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 56780, "customer_id": 57803, "amount": 4045.69, "order_date": "2024-01-28T12:48:57.368879"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 18191, "customer_id": 3041, "amount": 4403.58, "order_date": "2024-01-29T15:28:28.598870"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 38300, "customer_id": 49776, "amount": 1362.11, "order_date": "2024-02-03T09:57:08.289487"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 2789, "customer_id": 66907, "amount": 9761.38, "order_date": "2024-03-12T14:11:05.732413"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 53327, "customer_id": 97695, "amount": 8692.42, "order_date": "2024-01-14T18:57:23.176699"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 63929, "customer_id": 44933, "amount": 2.97, "order_date": "2024-01-03T01:42:52.946719"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 69090, "customer_id": 56200, "amount": 1316.49, "order_date": "2024-03-11T10:27:36.923180"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 25644, "customer_id": 67890, "amount": 2767.32, "order_date": "2024-02-07T01:02:37.389536"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 29841, "customer_id": 79014, "amount": 5508.02, "order_date": "2024-01-08T14:44:53.817373"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 94009, "customer_id": 96866, "amount": 5353.99, "order_date": "2024-02-26T14:14:09.542383"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 74674, "customer_id": 57773, "amount": 6626.73, "order_date": "2024-02-16T12:18:25.996269"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 98313, "customer_id": 74031, "amount": 2013.43, "order_date": "2024-02-22T00:44:50.624622"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 39195, "customer_id": 28189, "amount": 6663.04, "order_date": "2024-02-07T05:47:48.387972"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 29524, "customer_id": 80885, "amount": 8411.94, "order_date": "2024-02-19T04:51:54.744462"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 37876, "customer_id": 48726, "amount": 4098.58, "order_date": "2024-01-15T21:07:07.614172"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 83381, "customer_id": 63822, "amount": 4995.92, "order_date": "2024-02-25T03:41:17.228890"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 26087, "customer_id": 97857, "amount": 8833.65, "order_date": "2024-01-14T08:43:54.240719"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 14472, "customer_id": 45963, "amount": 6088.33, "order_date": "2024-01-25T08:13:44.436454"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 81469, "customer_id": 76591, "amount": 9427.35, "order_date": "2024-01-03T02:16:52.499357"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 62352, "customer_id": 34467, "amount": 5110.49, "order_date": "2024-03-03T16:06:53.211314"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 61828, "customer_id": 89644, "amount": 5216.66, "order_date": "2024-01-17T08:52:39.981806"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 61343, "customer_id": 58843, "amount": 9594.72, "order_date": "2024-02-23T14:27:42.870801"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 32524, "customer_id": 18280, "amount": 5217.76, "order_date": "2024-01-14T10:21:24.281311"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 29312, "customer_id": 11166, "amount": 923.9, "order_date": "2024-02-04T22:14:29.719888"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 78828, "customer_id": 44776, "amount": 7870.76, "order_date": "2024-02-05T18:08:34.714997"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 59388, "customer_id": 77803, "amount": 3122.96, "order_date": "2024-02-12T00:25:44.994271"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 29840, "customer_id": 78571, "amount": 1805.18, "order_date": "2024-02-29T04:15:41.285780"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 65666, "customer_id": 89289, "amount": 1215.16, "order_date": "2024-02-24T14:38:59.662335"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 52214, "customer_id": 90667, "amount": 2906.03, "order_date": "2024-01-03T04:43:43.759393"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 33695, "customer_id": 48712, "amount": 2412.09, "order_date": "2024-01-08T04:33:50.326065"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 43786, "customer_id": 36333, "amount": 5863.2, "order_date": "2024-01-13T09:29:32.898354"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 21645, "customer_id": 31826, "amount": 2346.44, "order_date": "2024-03-03T15:37:09.179448"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 38911, "customer_id": 7776, "amount": 8473.37, "order_date": "2024-01-05T05:01:04.248600"}}
-{"type": "RECORD", "stream": "sales_data", "record": {"order_id": 13810, "customer_id": 52013, "amount": 3205.89, "order_date": "2024-01-10T19:00:30.690995"}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889296, "data": {"order_id": 91752, "customer_id": 34509, "amount": 7104.11, "order_date": "2024-03-11T17:24:10.835032"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889301, "data": {"order_id": 89567, "customer_id": 42458, "amount": 3415.21, "order_date": "2024-02-21T08:39:16.270072"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889304, "data": {"order_id": 55228, "customer_id": 8457, "amount": 1915.0, "order_date": "2024-01-08T02:15:10.314509"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889306, "data": {"order_id": 64060, "customer_id": 57613, "amount": 6246.68, "order_date": "2024-01-12T11:55:10.886109"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889309, "data": {"order_id": 90793, "customer_id": 25696, "amount": 7354.96, "order_date": "2024-01-20T07:25:41.210842"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889315, "data": {"order_id": 26149, "customer_id": 53094, "amount": 5992.31, "order_date": "2024-02-29T08:00:22.585205"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889318, "data": {"order_id": 58807, "customer_id": 4009, "amount": 8165.9, "order_date": "2024-01-23T06:12:42.585918"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889322, "data": {"order_id": 58470, "customer_id": 87166, "amount": 114.22, "order_date": "2024-02-01T01:56:59.446443"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889325, "data": {"order_id": 16823, "customer_id": 263, "amount": 8846.54, "order_date": "2024-03-10T07:22:32.898518"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889328, "data": {"order_id": 52880, "customer_id": 76889, "amount": 9494.3, "order_date": "2024-03-01T11:46:39.855555"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88933, "data": {"order_id": 1288, "customer_id": 19874, "amount": 8726.63, "order_date": "2024-02-18T20:08:57.183173"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889333, "data": {"order_id": 14826, "customer_id": 68958, "amount": 9107.14, "order_date": "2024-01-23T07:13:35.110959"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889335, "data": {"order_id": 51264, "customer_id": 74209, "amount": 5156.61, "order_date": "2024-01-09T19:15:43.611438"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889337, "data": {"order_id": 54097, "customer_id": 7186, "amount": 63.92, "order_date": "2024-01-26T21:12:35.967384"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88934, "data": {"order_id": 89926, "customer_id": 50910, "amount": 55.09, "order_date": "2024-03-13T21:36:51.116956"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889345, "data": {"order_id": 29736, "customer_id": 1889, "amount": 717.14, "order_date": "2024-02-11T11:57:52.307364"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889347, "data": {"order_id": 4482, "customer_id": 53089, "amount": 1566.86, "order_date": "2024-01-28T16:14:59.419956"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88935, "data": {"order_id": 68450, "customer_id": 25144, "amount": 2978.86, "order_date": "2024-02-28T05:05:50.159283"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889352, "data": {"order_id": 31055, "customer_id": 85211, "amount": 8900.51, "order_date": "2024-01-23T00:10:39.079971"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889355, "data": {"order_id": 60779, "customer_id": 20559, "amount": 6893.37, "order_date": "2024-01-25T16:31:37.880273"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889357, "data": {"order_id": 31882, "customer_id": 3204, "amount": 9149.59, "order_date": "2024-01-17T11:41:08.354626"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889359, "data": {"order_id": 18677, "customer_id": 52445, "amount": 6213.91, "order_date": "2024-01-21T08:59:01.994847"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889361, "data": {"order_id": 25264, "customer_id": 48116, "amount": 8731.56, "order_date": "2024-01-04T10:32:57.109397"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889364, "data": {"order_id": 8202, "customer_id": 97758, "amount": 8954.41, "order_date": "2024-01-20T07:58:41.643572"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889366, "data": {"order_id": 46197, "customer_id": 82374, "amount": 4312.19, "order_date": "2024-03-12T04:53:45.430878"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889369, "data": {"order_id": 49971, "customer_id": 57660, "amount": 6935.32, "order_date": "2024-01-18T20:37:39.585063"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889374, "data": {"order_id": 94659, "customer_id": 53601, "amount": 9821.52, "order_date": "2024-01-22T12:49:45.357177"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889376, "data": {"order_id": 94449, "customer_id": 58151, "amount": 9083.73, "order_date": "2024-01-08T06:28:30.796796"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889379, "data": {"order_id": 41184, "customer_id": 31250, "amount": 4593.57, "order_date": "2024-03-08T16:48:03.551403"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889381, "data": {"order_id": 45412, "customer_id": 95680, "amount": 930.99, "order_date": "2024-03-12T14:06:34.760368"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889383, "data": {"order_id": 76028, "customer_id": 99638, "amount": 2587.57, "order_date": "2024-02-11T17:11:20.237463"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889386, "data": {"order_id": 86000, "customer_id": 43188, "amount": 3399.97, "order_date": "2024-01-24T17:17:10.755261"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889391, "data": {"order_id": 55564, "customer_id": 58189, "amount": 915.9, "order_date": "2024-03-12T02:13:52.335250"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889393, "data": {"order_id": 95512, "customer_id": 82626, "amount": 7057.14, "order_date": "2024-02-03T22:43:00.427440"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889396, "data": {"order_id": 80676, "customer_id": 37838, "amount": 6305.22, "order_date": "2024-03-13T02:27:29.630705"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889398, "data": {"order_id": 74235, "customer_id": 63623, "amount": 1666.85, "order_date": "2024-02-23T16:36:34.643896"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.8894, "data": {"order_id": 2223, "customer_id": 99655, "amount": 3538.98, "order_date": "2024-02-18T09:09:47.713279"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889405, "data": {"order_id": 34667, "customer_id": 27735, "amount": 3203.12, "order_date": "2024-02-05T17:26:13.041047"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889407, "data": {"order_id": 6635, "customer_id": 46484, "amount": 6969.9, "order_date": "2024-02-19T17:42:41.706355"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88941, "data": {"order_id": 47683, "customer_id": 84840, "amount": 2534.33, "order_date": "2024-02-28T12:42:11.753315"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889412, "data": {"order_id": 24678, "customer_id": 88195, "amount": 7773.32, "order_date": "2024-01-31T05:30:19.667430"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889415, "data": {"order_id": 71125, "customer_id": 53638, "amount": 1827.09, "order_date": "2024-03-08T10:07:43.563318"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889417, "data": {"order_id": 86941, "customer_id": 73283, "amount": 5335.86, "order_date": "2024-01-30T10:10:47.109992"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889419, "data": {"order_id": 63878, "customer_id": 66072, "amount": 9878.47, "order_date": "2024-03-11T12:07:11.868422"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889422, "data": {"order_id": 33221, "customer_id": 22369, "amount": 2013.47, "order_date": "2024-01-02T04:29:34.012223"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889424, "data": {"order_id": 68658, "customer_id": 79598, "amount": 9213.99, "order_date": "2024-01-23T19:56:44.956011"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889426, "data": {"order_id": 81195, "customer_id": 79823, "amount": 2962.93, "order_date": "2024-03-06T15:50:57.032186"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889429, "data": {"order_id": 96364, "customer_id": 46145, "amount": 6107.74, "order_date": "2024-02-26T00:22:45.053416"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889434, "data": {"order_id": 81865, "customer_id": 97778, "amount": 6566.34, "order_date": "2024-01-11T13:17:05.122295"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889436, "data": {"order_id": 6276, "customer_id": 36673, "amount": 3047.04, "order_date": "2024-02-14T08:24:41.326028"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889438, "data": {"order_id": 32132, "customer_id": 11328, "amount": 1613.34, "order_date": "2024-03-11T05:49:56.993988"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889441, "data": {"order_id": 4468, "customer_id": 39188, "amount": 3068.41, "order_date": "2024-01-17T13:00:23.882230"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889443, "data": {"order_id": 70157, "customer_id": 67204, "amount": 8306.58, "order_date": "2024-01-15T12:51:04.026150"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889448, "data": {"order_id": 10172, "customer_id": 26769, "amount": 4929.81, "order_date": "2024-01-08T19:42:46.919121"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889451, "data": {"order_id": 63217, "customer_id": 94010, "amount": 9800.73, "order_date": "2024-01-16T01:41:16.345278"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889453, "data": {"order_id": 79082, "customer_id": 72722, "amount": 2529.19, "order_date": "2024-03-02T01:04:48.642842"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889456, "data": {"order_id": 96919, "customer_id": 96012, "amount": 7507.15, "order_date": "2024-03-13T15:17:40.263896"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889458, "data": {"order_id": 32380, "customer_id": 70730, "amount": 3453.12, "order_date": "2024-02-15T02:04:48.433075"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88946, "data": {"order_id": 89377, "customer_id": 8132, "amount": 7620.99, "order_date": "2024-01-15T07:27:16.792423"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889463, "data": {"order_id": 3038, "customer_id": 46026, "amount": 9639.09, "order_date": "2024-03-09T15:27:41.608502"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889581, "data": {"order_id": 64289, "customer_id": 68373, "amount": 7999.96, "order_date": "2024-02-03T08:03:03.400980"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889584, "data": {"order_id": 55361, "customer_id": 20643, "amount": 4564.59, "order_date": "2024-01-26T14:04:38.270608"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889586, "data": {"order_id": 88766, "customer_id": 47760, "amount": 4420.94, "order_date": "2024-03-13T04:46:35.808648"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889589, "data": {"order_id": 50156, "customer_id": 60349, "amount": 4980.08, "order_date": "2024-01-24T02:57:41.182942"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889595, "data": {"order_id": 69789, "customer_id": 80761, "amount": 3162.79, "order_date": "2024-03-01T06:04:50.700050"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.8896, "data": {"order_id": 99988, "customer_id": 1724, "amount": 3288.5, "order_date": "2024-02-27T23:05:27.563116"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889603, "data": {"order_id": 60462, "customer_id": 50435, "amount": 1518.41, "order_date": "2024-01-25T05:41:03.731952"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889605, "data": {"order_id": 52303, "customer_id": 15590, "amount": 6945.11, "order_date": "2024-02-21T21:00:27.062982"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889608, "data": {"order_id": 44905, "customer_id": 90772, "amount": 415.31, "order_date": "2024-02-17T17:48:25.817573"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889613, "data": {"order_id": 49073, "customer_id": 42478, "amount": 9049.38, "order_date": "2024-02-17T16:23:29.204165"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889615, "data": {"order_id": 74195, "customer_id": 1415, "amount": 7660.75, "order_date": "2024-03-09T10:56:41.552761"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889617, "data": {"order_id": 41896, "customer_id": 87536, "amount": 9052.94, "order_date": "2024-02-22T01:12:45.967546"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88962, "data": {"order_id": 98437, "customer_id": 73027, "amount": 1169.56, "order_date": "2024-01-17T09:51:55.410677"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889622, "data": {"order_id": 3777, "customer_id": 72656, "amount": 7752.25, "order_date": "2024-01-25T08:12:47.319176"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889624, "data": {"order_id": 31053, "customer_id": 65506, "amount": 8006.6, "order_date": "2024-01-12T23:32:35.566636"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889627, "data": {"order_id": 63814, "customer_id": 3885, "amount": 6655.09, "order_date": "2024-03-09T17:37:54.197022"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889629, "data": {"order_id": 65239, "customer_id": 57852, "amount": 1253.46, "order_date": "2024-01-06T01:42:36.422822"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889632, "data": {"order_id": 64337, "customer_id": 56769, "amount": 5012.09, "order_date": "2024-01-30T07:31:29.209239"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889634, "data": {"order_id": 92411, "customer_id": 80048, "amount": 8651.99, "order_date": "2024-01-22T11:28:07.195151"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889639, "data": {"order_id": 52420, "customer_id": 37053, "amount": 5377.92, "order_date": "2024-01-15T06:19:17.716216"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889641, "data": {"order_id": 50146, "customer_id": 52617, "amount": 6994.53, "order_date": "2024-01-11T10:24:03.011854"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889644, "data": {"order_id": 71177, "customer_id": 46508, "amount": 6380.8, "order_date": "2024-01-23T01:46:22.882658"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889646, "data": {"order_id": 8587, "customer_id": 7836, "amount": 8359.55, "order_date": "2024-01-25T03:11:20.630125"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889648, "data": {"order_id": 84035, "customer_id": 36170, "amount": 3161.25, "order_date": "2024-02-16T15:40:28.883931"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889651, "data": {"order_id": 44517, "customer_id": 61480, "amount": 9931.32, "order_date": "2024-01-20T13:14:51.955561"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889653, "data": {"order_id": 27490, "customer_id": 47644, "amount": 2810.13, "order_date": "2024-03-01T11:28:54.039541"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889655, "data": {"order_id": 58045, "customer_id": 51996, "amount": 7132.46, "order_date": "2024-01-15T20:00:26.106810"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889658, "data": {"order_id": 71820, "customer_id": 91384, "amount": 450.4, "order_date": "2024-01-13T03:46:35.464894"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.88966, "data": {"order_id": 62979, "customer_id": 32782, "amount": 3051.37, "order_date": "2024-03-07T18:51:08.786528"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889662, "data": {"order_id": 87910, "customer_id": 35800, "amount": 1510.59, "order_date": "2024-01-09T13:31:15.962793"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889665, "data": {"order_id": 25250, "customer_id": 73854, "amount": 6386.72, "order_date": "2024-01-07T15:01:48.897077"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889667, "data": {"order_id": 39449, "customer_id": 6782, "amount": 8885.72, "order_date": "2024-01-02T16:49:12.801853"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889669, "data": {"order_id": 24281, "customer_id": 41215, "amount": 5144.03, "order_date": "2024-02-19T01:22:07.392137"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889672, "data": {"order_id": 77231, "customer_id": 6537, "amount": 8543.23, "order_date": "2024-02-24T13:43:02.705327"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889674, "data": {"order_id": 71699, "customer_id": 28229, "amount": 4189.99, "order_date": "2024-02-07T23:49:03.105600"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889679, "data": {"order_id": 13965, "customer_id": 12116, "amount": 246.63, "order_date": "2024-01-18T04:12:05.265126"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889682, "data": {"order_id": 8765, "customer_id": 27626, "amount": 1383.27, "order_date": "2024-01-31T20:00:16.222723"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889684, "data": {"order_id": 46812, "customer_id": 7176, "amount": 3190.31, "order_date": "2024-01-12T07:07:29.225808"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889686, "data": {"order_id": 3482, "customer_id": 22361, "amount": 5520.46, "order_date": "2024-02-05T12:41:18.945779"}}}
+{"type": "RECORD", "record": {"stream": "sales_data", "emitted_at": 1710423095.889689, "data": {"order_id": 8064, "customer_id": 56249, "amount": 266.3, "order_date": "2024-02-12T23:44:32.300494"}}}

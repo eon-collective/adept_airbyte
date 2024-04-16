@@ -2,33 +2,26 @@
   "streams": [
     {
       "stream": {
-        "name": "acceptance_table",
+        "name": "sales_data",
         "supported_sync_modes": ["full_refresh"],
         "source_defined_cursor": false,
         "json_schema": {
           "type": "object",
           "properties": {
-            "column1": {
-              "type": "string"
-            },
-            "column2": {
-              "type": "number"
-            },
-            "column3": {
-              "type": "string",
-              "format": "date-time",
-              "airbyte_type": "timestamp_without_timezone"
-            },
-            "column4": {
-              "type": "number"
-            },
-            "column5": {
-              "type": "array",
-              "items": {
-                "type": "integer"
-              }
-            }
-          }
+                          "order_id": {
+                            "type": "string"
+                          },
+                          "customer_id": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "order_date": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
         }
       },
       "sync_mode": "full_refresh",
