@@ -9,6 +9,6 @@ normalize:
   target: prod
   outputs:
     prod:
-#      type: "<bigquery | postgres | redshift | snowflake | other>"
+#      type: "<bigquery | postgres | redshift | snowflake | greenplum | other>"
 #      database-specific configuration here...
 

@@ -52,6 +52,7 @@ class TransformConfig:
         transformed_integration_config = {
             DestinationType.BIGQUERY.value: self.transform_bigquery,
             DestinationType.POSTGRES.value: self.transform_postgres,
+            DestinationType.GREENPLUM.value: self.transform_greenplum,
             DestinationType.REDSHIFT.value: self.transform_redshift,
             DestinationType.SNOWFLAKE.value: self.transform_snowflake,
             DestinationType.MYSQL.value: self.transform_mysql,
@@ -168,6 +169,40 @@ class TransformConfig:
         # https://docs.getdbt.com/reference/warehouse-profiles/postgres-profile
         dbt_config = {
             "type": "postgres",
+            "host": config["host"],
+            "user": config["username"],
+            "pass": config.get("password", ""),
+            "port": config["port"],
+            "dbname": config["database"],
+            "schema": config["schema"],
+            "threads": 8,
+        }
+
+        ssl = config.get("ssl")
+        if ssl:
+            ssl_mode = config.get("ssl_mode", {"mode": "allow"})
+            dbt_config["sslmode"] = ssl_mode.get("mode")
+            if ssl_mode["mode"] == "verify-ca":
+                TransformConfig.create_file("ca.crt", ssl_mode["ca_certificate"])
+                dbt_config["sslrootcert"] = "ca.crt"
+            elif ssl_mode["mode"] == "verify-full":
+                dbt_config["sslrootcert"] = TransformConfig.create_file("ca.crt", ssl_mode["ca_certificate"])
+                dbt_config["sslcert"] = TransformConfig.create_file("client.crt", ssl_mode["client_certificate"])
+                client_key = TransformConfig.create_file("client.key", ssl_mode["client_key"])
+                subprocess.call("openssl pkcs8 -topk8 -inform PEM -in client.key -outform DER -out client.pk8 -nocrypt", shell=True)
+                dbt_config["sslkey"] = client_key.replace("client.key", "client.pk8")
+
+        return dbt_config
+    
+    def transform_greenplum(config: Dict[str, Any]):
+        print("transform_greenplum")
+
+        if TransformConfig.is_ssh_tunnelling(config):
+            config = TransformConfig.get_ssh_altered_config(config, port_key="port", host_key="host")
+
+        # https://docs.getdbt.com/reference/warehouse-profiles/postgres-profile
+        dbt_config = {
+            "type": "greenplum",
             "host": config["host"],
             "user": config["username"],
             "pass": config.get("password", ""),

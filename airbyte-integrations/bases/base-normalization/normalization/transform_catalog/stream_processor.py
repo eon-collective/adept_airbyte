@@ -277,6 +277,41 @@ class StreamProcessor(object):
                 self.get_model_materialization_mode(is_intermediate=False, column_count=column_count),
                 is_intermediate=False,
             )
+        elif self.destination_type.value == DestinationType.GREENPLUM.value:
+            if self.is_incremental_mode(self.destination_sync_mode):
+                # Force different materialization here because incremental scd models rely on star* macros that requires it
+                if self.destination_type.value == DestinationType.GREENPLUM.value:
+                    # because of https://github.com/dbt-labs/docs.getdbt.com/issues/335, we avoid VIEW for postgres
+                    forced_materialization_type = TableMaterializationType.INCREMENTAL
+                else:
+                    forced_materialization_type = TableMaterializationType.VIEW
+            else:
+                forced_materialization_type = TableMaterializationType.CTE
+            from_table = self.add_to_outputs(
+                self.generate_id_hashing_model(from_table, column_names),
+                forced_materialization_type,
+                is_intermediate=True,
+                suffix="stg",
+            )
+
+            from_table = self.add_to_outputs(
+                self.generate_scd_type_2_model(from_table, column_names),
+                self.get_model_materialization_mode(is_intermediate=False, column_count=column_count),
+                is_intermediate=False,
+                suffix="scd",
+                subdir="scd",
+                unique_key=self.name_transformer.normalize_column_name(f"{self.airbyte_unique_key}_scd"),
+                partition_by=PartitionScheme.ACTIVE_ROW,
+            )
+            where_clause = f"\nand {self.name_transformer.normalize_column_name('_airbyte_active_row')} = 1"
+            # from_table should not use the de-duplicated final table or tables downstream (nested streams) will miss non active rows
+            self.add_to_outputs(
+                self.generate_final_model(from_table, column_names, unique_key=self.get_unique_key()) + where_clause,
+                self.get_model_materialization_mode(is_intermediate=False, column_count=column_count),
+                is_intermediate=False,
+                unique_key=self.get_unique_key(),
+                partition_by=PartitionScheme.UNIQUE_KEY,
+            )
         else:
             if self.is_incremental_mode(self.destination_sync_mode):
                 # Force different materialization here because incremental scd models rely on star* macros that requires it
@@ -1287,6 +1322,17 @@ where 1 = 1
                     hooks.append(f"drop view {stg_schema}.{stg_table}")
 
                 config["post_hook"] = "[" + ",".join(map(wrap_in_quotes, hooks)) + "]"
+
+                if self.destination_type.value == DestinationType.GREENPLUM.value:
+                    # Keep only rows with the max emitted_at to keep incremental behavior
+                    hooks.append(
+                        f"delete from {stg_schema}.{stg_table} where {self.airbyte_emitted_at} != (select max({self.airbyte_emitted_at}) from {stg_schema}.{stg_table})",
+                    )
+                else:
+                    hooks.append(f"drop view {stg_schema}.{stg_table}")
+
+                config["post_hook"] = "[" + ",".join(map(wrap_in_quotes, hooks)) + "]"
+
             else:
                 # incremental is handled in the SCD SQL already
                 sql = self.add_incremental_clause(sql)
@@ -1376,6 +1422,20 @@ where 1 = 1
             else:
                 config["partition_by"] = '{"field": "' + self.airbyte_emitted_at + '", "data_type": "timestamp", "granularity": "day"}'
         elif self.destination_type == DestinationType.POSTGRES:
+            # see https://docs.getdbt.com/reference/resource-configs/postgres-configs
+            if partition_by == PartitionScheme.ACTIVE_ROW:
+                config["indexes"] = (
+                    "[{'columns':['_airbyte_active_row','"
+                    + self.airbyte_unique_key
+                    + "_scd','"
+                    + self.airbyte_emitted_at
+                    + "'],'type': 'btree'}]"
+                )
+            elif partition_by == PartitionScheme.UNIQUE_KEY:
+                config["indexes"] = "[{'columns':['" + self.airbyte_unique_key + "'],'unique':True}]"
+            else:
+                config["indexes"] = "[{'columns':['" + self.airbyte_emitted_at + "'],'type':'btree'}]"
+        elif self.destination_type == DestinationType.GREENPLUM:
             # see https://docs.getdbt.com/reference/resource-configs/postgres-configs
             if partition_by == PartitionScheme.ACTIVE_ROW:
                 config["indexes"] = (
