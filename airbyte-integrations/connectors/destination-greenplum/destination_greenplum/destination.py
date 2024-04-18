@@ -56,11 +56,13 @@ class DestinationGreenplum(Destination):
 
         for configured_stream in configured_catalog.streams:
             name = configured_stream.stream.name
+            print(name)
             table_name = f"_airbyte_raw_{name}"
             if configured_stream.destination_sync_mode == DestinationSyncMode.overwrite:
                 # delete the tables
                 loger.info(msg=f"Dropping tables for overwrite: {table_name}")
                 query = f"DROP TABLE IF EXISTS {table_name}"
+                print(query)
                 greenplumwriter.greenplum__writer(query)
                 loger.info(msg=f"Table dropped: {table_name}")
                 
